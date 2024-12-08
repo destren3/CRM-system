@@ -1,6 +1,6 @@
 import { Button } from '..';
 import { ButtonColors, ButtonSize } from '../../lib/constants';
-import { Todo } from '../../lib/types';
+import { Todo, TodoRequest } from '../../lib/types';
 import styles from './card.module.scss';
 import DeleteIcon from '../../assets/delete-icon.svg?url';
 import EditIcon from '../../assets/edit-icon.svg?url';
@@ -8,15 +8,22 @@ import EditIcon from '../../assets/edit-icon.svg?url';
 interface TCard {
   content: Todo;
   deleteCard: (id: number) => void;
+  handleToggleCheckbox: (data: TodoRequest, id: number) => void;
 }
 
-export const Card = ({ content, deleteCard }: TCard) => {
+export const Card = ({ content, deleteCard, handleToggleCheckbox }: TCard) => {
   return (
     <div className={styles.card}>
       <div className={styles[`card-content`]}>
         <input
           type="checkbox"
-          checked={content.isDone === true ? true : false}
+          checked={content.isDone}
+          onChange={() =>
+            handleToggleCheckbox(
+              { title: content.title, isDone: !content.isDone },
+              content.id
+            )
+          }
         />
         <span className={content.isDone === true ? styles.strikethrough : ''}>
           {content.title}

@@ -25,6 +25,10 @@ export const TodosPage = () => {
     setInputValue('');
   };
 
+  const handleToggleCheckbox = (data: TodoRequest, id: number) => {
+    NotesService.updateNote(data, id);
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -41,7 +45,7 @@ export const TodosPage = () => {
       }
     };
     fetchNotes();
-  }, [currentTab, handleDeleteCard, handleAddCard]);
+  }, [currentTab, handleDeleteCard, handleAddCard, handleToggleCheckbox]);
 
   return (
     <TodosPageUI
@@ -54,6 +58,7 @@ export const TodosPage = () => {
       deleteCard={handleDeleteCard}
       inputValue={inputValue ? inputValue : ''}
       setInputValue={handleInputChange}
+			handleToggleCheckbox={handleToggleCheckbox}
     />
   );
 };

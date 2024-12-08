@@ -13,6 +13,7 @@ interface TTodosPageUI {
   deleteCard: (id: number) => void;
   inputValue: string;
   setInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	handleToggleCheckbox: (data: TodoRequest, id: number) => void;
 }
 
 export const TodosPageUI = ({
@@ -25,6 +26,7 @@ export const TodosPageUI = ({
   deleteCard,
   inputValue,
   setInputValue,
+	handleToggleCheckbox
 }: TTodosPageUI) => {
   return (
     <div className={styles['page-wrapper']}>
@@ -56,7 +58,7 @@ export const TodosPageUI = ({
       {cardsContent.length > 0 ? (
         <div className={styles['cards-wrapper']}>
           {cardsContent.map((content) => (
-            <Card content={content} key={content.id} deleteCard={deleteCard} />
+            <Card content={content} key={content.id} deleteCard={deleteCard} handleToggleCheckbox={handleToggleCheckbox} />
           ))}
         </div>
       ) : (
