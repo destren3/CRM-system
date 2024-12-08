@@ -1,9 +1,10 @@
-import { Button } from "..";
-import { ButtonColors, ButtonSize } from "../../lib/constants";
-import styles from "./card.module.scss";
+import { Button } from '..';
+import { ButtonColors, ButtonSize } from '../../lib/constants';
+import { Todo } from '../../lib/types';
+import styles from './card.module.scss';
 
 interface TCard {
-  content: string;
+  content: Todo;
 }
 
 export const Card = ({ content }: TCard) => {
@@ -11,7 +12,7 @@ export const Card = ({ content }: TCard) => {
     <div className={styles.card}>
       <div className={styles[`card-content`]}>
         <input type="checkbox" />
-        {content}
+        {content.title}
       </div>
       <div className={styles[`buttons-wrapper`]}>
         <Button

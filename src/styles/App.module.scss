@@ -1,6 +1,8 @@
 @use "./variables";
 
 .background {
+	display: flex;
+	justify-content: center;
   width: 100wh;
   height: 100vh;
   padding: 20px;

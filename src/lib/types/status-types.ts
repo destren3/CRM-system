@@ -1,1 +1,1 @@
-export type TStatus = 'All' | 'compeleted' | 'inWork'
+export type TStatus = 'all' | 'completed' | 'inWork'

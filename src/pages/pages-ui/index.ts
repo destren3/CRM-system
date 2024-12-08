@@ -1,1 +1,1 @@
-export { TodosPageUI } from './todos-page';
+export { TodosPageUI } from './todos-page-ui/todos-page';
