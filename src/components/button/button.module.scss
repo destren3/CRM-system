@@ -1,0 +1,23 @@
+@use '../../styles/variables';
+@use '../../styles/mixins.scss';
+
+.button {
+  &-big {
+		@include mixins.button-common;
+    max-width: 150px;
+    width: 100%;
+  }
+
+  &-small {
+		@include mixins.button-common;
+    width: 40px;
+  }
+
+  &-red {
+    background-color: variables.$main-color
+  }
+
+  &-blue {
+    background-color: variables.$secondary-color
+  }
+}
