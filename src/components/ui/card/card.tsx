@@ -12,8 +12,8 @@ interface TCardUI {
   isChange: boolean;
   handleChangeCardState: (value: boolean) => void;
   handleUpdateCard: (data: TodoRequest, id: number) => void;
-	setInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	inputEditValue: string;
+  setInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  inputEditValue: string;
 }
 
 export const CardUI = ({
@@ -23,8 +23,8 @@ export const CardUI = ({
   isChange,
   handleChangeCardState,
   handleUpdateCard,
-	setInputValue,
-	inputEditValue
+  setInputValue,
+  inputEditValue,
 }: TCardUI) => {
   return (
     <>
@@ -65,7 +65,11 @@ export const CardUI = ({
         </div>
       ) : (
         <div className={styles.card}>
-          <Input placeholder="Change task" value={inputEditValue} onChange={(e) => setInputValue(e)} />
+          <Input
+            placeholder="Change task"
+            value={inputEditValue}
+            onChange={(e) => setInputValue(e)}
+          />
           <div className={styles[`buttons-wrapper-edit`]}>
             <Button
               onButtonClick={() => {

@@ -1,6 +1,6 @@
-import styles from "./button.module.scss";
-import { ButtonColors, ButtonSize } from "../../../lib/constants";
-import React from "react";
+import styles from './button.module.scss';
+import { ButtonColors, ButtonSize } from '../../../lib/constants';
+import React from 'react';
 
 interface TButton {
   onButtonClick: () => void;

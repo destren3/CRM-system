@@ -25,18 +25,24 @@ export const TodosPage = () => {
   const handleAddCard = useCallback(async (data: TodoRequest) => {
     await NotesService.postNote(data);
     setInputValue('');
-		setTriggerUpdate((prev) => prev + 1);
+    setTriggerUpdate((prev) => prev + 1);
   }, []);
 
-  const handleUpdateCard = useCallback(async (data: TodoRequest, id: number) => {
-    await NotesService.updateNote(data, id);
-		setTriggerUpdate((prev) => prev + 1);
-  }, []);
+  const handleUpdateCard = useCallback(
+    async (data: TodoRequest, id: number) => {
+      await NotesService.updateNote(data, id);
+      setTriggerUpdate((prev) => prev + 1);
+    },
+    []
+  );
 
-  const handleToggleCheckbox = useCallback(async (data: TodoRequest, id: number) => {
-    await NotesService.updateNote(data, id);
-		setTriggerUpdate((prev) => prev + 1);
-  }, []);
+  const handleToggleCheckbox = useCallback(
+    async (data: TodoRequest, id: number) => {
+      await NotesService.updateNote(data, id);
+      setTriggerUpdate((prev) => prev + 1);
+    },
+    []
+  );
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

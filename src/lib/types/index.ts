@@ -1,2 +1,2 @@
-export * from './common-types'
-export * from './status-types'
+export * from './common-types';
+export * from './status-types';

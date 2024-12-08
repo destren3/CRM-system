@@ -6,19 +6,24 @@ interface TCard {
   content: Todo;
   deleteCard: (id: number) => void;
   handleToggleCheckbox: (data: TodoRequest, id: number) => void;
-	handleUpdateCard: (data: TodoRequest, id: number) => void;
+  handleUpdateCard: (data: TodoRequest, id: number) => void;
 }
 
-export const Card = ({ content, deleteCard, handleToggleCheckbox, handleUpdateCard }: TCard) => {
-	const [isChange, setIsChange] = useState<boolean>(false);
-	const [inputEditValue, setInputEditValue] = useState<string>(content.title)
+export const Card = ({
+  content,
+  deleteCard,
+  handleToggleCheckbox,
+  handleUpdateCard,
+}: TCard) => {
+  const [isChange, setIsChange] = useState<boolean>(false);
+  const [inputEditValue, setInputEditValue] = useState<string>(content.title);
 
   const handleChangeCardState = useCallback(
     (value: boolean) => setIsChange(value),
     []
   );
 
-	const handleInputEditChange = useCallback(
+  const handleInputEditChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputEditValue(e.target.value);
     },
@@ -30,11 +35,11 @@ export const Card = ({ content, deleteCard, handleToggleCheckbox, handleUpdateCa
       content={content}
       deleteCard={deleteCard}
       handleToggleCheckbox={handleToggleCheckbox}
-			isChange={isChange}
-			handleChangeCardState={handleChangeCardState}
-			handleUpdateCard={handleUpdateCard}
-			setInputValue={handleInputEditChange}
-			inputEditValue={inputEditValue}
+      isChange={isChange}
+      handleChangeCardState={handleChangeCardState}
+      handleUpdateCard={handleUpdateCard}
+      setInputValue={handleInputEditChange}
+      inputEditValue={inputEditValue}
     />
   );
 };
