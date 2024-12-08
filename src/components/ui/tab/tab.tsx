@@ -1,4 +1,4 @@
-import { TStatusRU } from '../../lib/types';
+import { TStatusRU } from '../../../lib/types';
 import styles from './tab.module.scss';
 
 interface TTab {

@@ -1,4 +1,4 @@
-@use "../../styles/variables";
+@use "../../../styles/variables";
 
 .card {
   display: flex;
@@ -24,10 +24,16 @@
 	font-size: 1.3rem;
 }
 
-.buttons-wrapper {
+.buttons-wrapper-actions {
   display: flex;
   flex-direction: row;
   gap: 10px;
+}
+
+.buttons-wrapper-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .strikethrough {
