@@ -25,6 +25,10 @@ export const TodosPage = () => {
     setInputValue('');
   }, []);
 
+  const handleUpdateCard = useCallback((data: TodoRequest, id: number) => {
+    NotesService.updateNote(data, id);
+  }, []);
+
   const handleToggleCheckbox = useCallback((data: TodoRequest, id: number) => {
     NotesService.updateNote(data, id);
   }, []);
@@ -62,6 +66,7 @@ export const TodosPage = () => {
       inputValue={inputValue ? inputValue : ''}
       setInputValue={handleInputChange}
       handleToggleCheckbox={handleToggleCheckbox}
+      handleUpdateCard={handleUpdateCard}
     />
   );
 };

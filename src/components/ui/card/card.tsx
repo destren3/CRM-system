@@ -9,11 +9,23 @@ interface TCardUI {
   content: Todo;
   deleteCard: (id: number) => void;
   handleToggleCheckbox: (data: TodoRequest, id: number) => void;
-	isChange: boolean;
-	handleChangeCardState: (value: boolean) => void;
+  isChange: boolean;
+  handleChangeCardState: (value: boolean) => void;
+  handleUpdateCard: (data: TodoRequest, id: number) => void;
+	setInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	inputEditValue: string;
 }
 
-export const CardUI = ({ content, deleteCard, handleToggleCheckbox, isChange, handleChangeCardState }: TCardUI) => {
+export const CardUI = ({
+  content,
+  deleteCard,
+  handleToggleCheckbox,
+  isChange,
+  handleChangeCardState,
+  handleUpdateCard,
+	setInputValue,
+	inputEditValue
+}: TCardUI) => {
   return (
     <>
       {isChange === false ? (
@@ -53,10 +65,16 @@ export const CardUI = ({ content, deleteCard, handleToggleCheckbox, isChange, ha
         </div>
       ) : (
         <div className={styles.card}>
-          <Input placeholder="Change task" />
+          <Input placeholder="Change task" value={inputEditValue} onChange={(e) => setInputValue(e)} />
           <div className={styles[`buttons-wrapper-edit`]}>
             <Button
-              onButtonClick={() => {}}
+              onButtonClick={() => {
+                handleUpdateCard(
+                  { title: inputEditValue, isDone: content.isDone },
+                  content.id
+                ),
+                  handleChangeCardState(false);
+              }}
               content={'Сохранить'}
               color={ButtonColors.BLUE}
               style={ButtonSize.BIG}
