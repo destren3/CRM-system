@@ -2,16 +2,32 @@ import { useEffect, useState } from 'react';
 import { statusTypes, tabs, translationStatusTypes } from '../../lib/constants';
 import { TodosPageUI } from '../pages-ui';
 import { NotesService } from '../../lib/api/services/notes.service';
-import { MetaResponse, TStatusRU, Todo, TodoInfo } from '../../lib/types';
+import {
+  MetaResponse,
+  TStatusRU,
+  Todo,
+  TodoInfo,
+  TodoRequest,
+} from '../../lib/types';
 
 export const TodosPage = () => {
   const [allContent, setAllContent] = useState<MetaResponse<Todo, TodoInfo>>();
   const [currentTab, setIsCurrentTab] = useState<TStatusRU>(statusTypes.ALL.ru);
-  const counts = allContent?.info ? Object.values(allContent.info) : [0,0,0];
+  const [inputValue, setInputValue] = useState<string>();
+  const counts = allContent?.info ? Object.values(allContent.info) : [0, 0, 0];
 
-	const handleDeleteCard = (id: number) => {
-		NotesService.deleteNote(id)
-	}
+  const handleDeleteCard = (id: number) => {
+    NotesService.deleteNote(id);
+  };
+
+  const handleAddCard = async (data: TodoRequest) => {
+    await NotesService.postNote(data);
+    setInputValue('');
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -25,18 +41,19 @@ export const TodosPage = () => {
       }
     };
     fetchNotes();
-  }, [currentTab, handleDeleteCard]);
-
+  }, [currentTab, handleDeleteCard, handleAddCard]);
 
   return (
     <TodosPageUI
       cardsContent={allContent?.data ? allContent.data : []}
-      onButtonAddClick={() => {}}
+      onButtonAddClick={handleAddCard}
       tabs={tabs}
       counts={counts}
       currentTab={currentTab}
       setIsCurrentTab={setIsCurrentTab}
-			deleteCard={handleDeleteCard}
+      deleteCard={handleDeleteCard}
+      inputValue={inputValue ? inputValue : ''}
+      setInputValue={handleInputChange}
     />
   );
 };

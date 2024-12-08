@@ -12,8 +12,8 @@ export class NotesService {
     return apiFetcher.get(`todos?filter=${status}`);
   }
 
-  static postNote(data: TodoRequest, id: number): Promise<Todo> {
-    return apiFetcher.post(`todos/${id}`, data);
+  static postNote(data: TodoRequest): Promise<Todo> {
+    return apiFetcher.post(`todos`, data);
   }
 
   static deleteNote(id: number): Promise<Todo> {
