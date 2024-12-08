@@ -14,23 +14,28 @@ export const TodosPage = () => {
   const [allContent, setAllContent] = useState<MetaResponse<Todo, TodoInfo>>();
   const [currentTab, setIsCurrentTab] = useState<TStatusRU>(statusTypes.ALL.ru);
   const [inputValue, setInputValue] = useState<string>();
+  const [triggerUpdate, setTriggerUpdate] = useState<number>(0);
   const counts = allContent?.info ? Object.values(allContent.info) : [0, 0, 0];
 
-  const handleDeleteCard = useCallback((id: number) => {
-    NotesService.deleteNote(id);
+  const handleDeleteCard = useCallback(async (id: number) => {
+    await NotesService.deleteNote(id);
+    setTriggerUpdate((prev) => prev + 1);
   }, []);
 
   const handleAddCard = useCallback(async (data: TodoRequest) => {
     await NotesService.postNote(data);
     setInputValue('');
+		setTriggerUpdate((prev) => prev + 1);
   }, []);
 
-  const handleUpdateCard = useCallback((data: TodoRequest, id: number) => {
-    NotesService.updateNote(data, id);
+  const handleUpdateCard = useCallback(async (data: TodoRequest, id: number) => {
+    await NotesService.updateNote(data, id);
+		setTriggerUpdate((prev) => prev + 1);
   }, []);
 
-  const handleToggleCheckbox = useCallback((data: TodoRequest, id: number) => {
-    NotesService.updateNote(data, id);
+  const handleToggleCheckbox = useCallback(async (data: TodoRequest, id: number) => {
+    await NotesService.updateNote(data, id);
+		setTriggerUpdate((prev) => prev + 1);
   }, []);
 
   const handleInputChange = useCallback(
@@ -52,7 +57,7 @@ export const TodosPage = () => {
       }
     };
     fetchNotes();
-  }, [currentTab, handleDeleteCard, handleAddCard, handleToggleCheckbox]);
+  }, [currentTab, triggerUpdate]);
 
   return (
     <TodosPageUI
