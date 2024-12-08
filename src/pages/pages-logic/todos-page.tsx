@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { statusTypes, tabs, translationStatusTypes } from '../../lib/constants';
 import { TodosPageUI } from '../pages-ui';
 import { NotesService } from '../../lib/api/services/notes.service';
@@ -16,22 +16,25 @@ export const TodosPage = () => {
   const [inputValue, setInputValue] = useState<string>();
   const counts = allContent?.info ? Object.values(allContent.info) : [0, 0, 0];
 
-  const handleDeleteCard = (id: number) => {
+  const handleDeleteCard = useCallback((id: number) => {
     NotesService.deleteNote(id);
-  };
+  }, []);
 
-  const handleAddCard = async (data: TodoRequest) => {
+  const handleAddCard = useCallback(async (data: TodoRequest) => {
     await NotesService.postNote(data);
     setInputValue('');
-  };
+  }, []);
 
-  const handleToggleCheckbox = (data: TodoRequest, id: number) => {
+  const handleToggleCheckbox = useCallback((data: TodoRequest, id: number) => {
     NotesService.updateNote(data, id);
-  };
+  }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(e.target.value);
+    },
+    []
+  );
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -58,7 +61,7 @@ export const TodosPage = () => {
       deleteCard={handleDeleteCard}
       inputValue={inputValue ? inputValue : ''}
       setInputValue={handleInputChange}
-			handleToggleCheckbox={handleToggleCheckbox}
+      handleToggleCheckbox={handleToggleCheckbox}
     />
   );
 };
