@@ -12,6 +12,10 @@
   border-radius: 10px;
 }
 
+.card:hover {
+	background-color:variables.$light-color-hover;
+}
+
 .card-content {
   display: flex;
   justify-items: start;

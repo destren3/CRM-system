@@ -1,12 +1,16 @@
-@use "../../styles/variables";
+@use '../../styles/variables';
 
 .tab {
   display: flex;
   justify-content: center;
   max-width: 150px;
   width: 100%;
-	font-weight: bold;
+  font-weight: bold;
   font-size: 1.3rem;
+}
+
+.tab:hover {
+  color: variables.$secondary-color-hover;
 }
 
 .tab-active {

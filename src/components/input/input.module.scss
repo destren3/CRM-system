@@ -1,3 +1,5 @@
+@use '../../styles/variables';
+
 .input {
   max-width: 300px;
   width: 100%;
@@ -5,4 +7,12 @@
   background-color: transparent;
   border: none;
   border-bottom: 1px solid;
+}
+
+.input:hover {
+	border-bottom: 1px solid variables.$secondary-color-hover;
+}
+
+.input:focus {
+	border-bottom: 1px solid variables.$secondary-color;
 }

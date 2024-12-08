@@ -17,7 +17,15 @@
     background-color: variables.$main-color
   }
 
+	&-red:hover {
+    background-color: variables.$main-color-hover
+  }
+
   &-blue {
     background-color: variables.$secondary-color
+  }
+
+	&-blue:hover {
+    background-color: variables.$secondary-color-hover
   }
 }
