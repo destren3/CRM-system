@@ -12,15 +12,15 @@ export class NotesService {
     return apiFetcher.get(`todos?filter=${status}`);
   }
 
-  static postNote(data: TodoRequest, id: string): Promise<Todo> {
+  static postNote(data: TodoRequest, id: number): Promise<Todo> {
     return apiFetcher.post(`todos/${id}`, data);
   }
 
-  static deleteNote(id: string): Promise<Todo> {
+  static deleteNote(id: number): Promise<Todo> {
     return apiFetcher.delete(`todos/${id}`, id);
   }
 
-  static updateNote(data: TodoRequest, id: string): Promise<Todo> {
+  static updateNote(data: TodoRequest, id: number): Promise<Todo> {
     return apiFetcher.put(`todos/${id}`, data);
   }
 }

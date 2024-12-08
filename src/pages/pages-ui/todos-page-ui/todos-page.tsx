@@ -1,29 +1,31 @@
 import { Button, Card, Input, Tabs } from '../../../components';
 import { ButtonColors, ButtonSize } from '../../../lib/constants';
-import { Todo } from '../../../lib/types';
+import { TStatusRU, Todo } from '../../../lib/types';
 import styles from './todos-page.module.scss';
 
 interface TTodosPageUI {
   onButtonAddClick: () => void;
-  tabs: string[];
-  isActive: boolean;
-  setIsActive: () => void;
-  count: number;
+  tabs: TStatusRU[];
+  counts: number[];
   cardsContent: Todo[];
+  currentTab: TStatusRU;
+  setIsCurrentTab: (status: TStatusRU) => void;
+  deleteCard: (id: number) => void;
 }
 
 export const TodosPageUI = ({
   onButtonAddClick,
   tabs,
-  count,
-  isActive,
-  setIsActive,
+  counts,
   cardsContent,
+  currentTab,
+  setIsCurrentTab,
+  deleteCard,
 }: TTodosPageUI) => {
   return (
     <div className={styles['page-wrapper']}>
       <div className={styles['add-note-wrapper']}>
-        <Input placeholder='Task To Be Done' />
+        <Input placeholder="Task To Be Done" />
         <Button
           onButtonClick={onButtonAddClick}
           content="Add"
@@ -35,15 +37,15 @@ export const TodosPageUI = ({
       <div className={styles['tabs-wrapper']}>
         <Tabs
           tabs={tabs}
-          count={count}
-          isActive={isActive}
-          setIsActive={setIsActive}
+          counts={counts}
+          currentTab={currentTab}
+          setIsCurrentTab={setIsCurrentTab}
         />
       </div>
 
       <div className={styles['cards-wrapper']}>
         {cardsContent.map((content) => (
-          <Card content={content} />
+          <Card content={content} key={content.id} deleteCard={deleteCard} />
         ))}
       </div>
     </div>
