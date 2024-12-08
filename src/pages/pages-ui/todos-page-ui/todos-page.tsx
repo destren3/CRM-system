@@ -43,11 +43,15 @@ export const TodosPageUI = ({
         />
       </div>
 
-      <div className={styles['cards-wrapper']}>
-        {cardsContent.map((content) => (
-          <Card content={content} key={content.id} deleteCard={deleteCard} />
-        ))}
-      </div>
+      {cardsContent.length > 0 ? (
+        <div className={styles['cards-wrapper']}>
+          {cardsContent.map((content) => (
+            <Card content={content} key={content.id} deleteCard={deleteCard} />
+          ))}
+        </div>
+      ) : (
+        'Загрузка...'
+      )}
     </div>
   );
 };
