@@ -3,7 +3,7 @@ import styles from './styles/App.module.scss';
 
 function App() {
   return (
-    <div className={styles.background}>
+    <div className={styles['pages-wrapper']}>
       <TodosPage />
     </div>
   );

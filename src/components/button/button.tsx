@@ -1,9 +1,10 @@
 import styles from "./button.module.scss";
 import { ButtonColors, ButtonSize } from "../../lib/constants";
+import React from "react";
 
 interface TButton {
   onButtonClick: () => void;
-  content: string;
+  content: React.ReactNode | string;
   style: (typeof ButtonSize)[keyof typeof ButtonSize];
   color: (typeof ButtonColors)[keyof typeof ButtonColors];
 }

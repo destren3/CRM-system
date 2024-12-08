@@ -2,6 +2,9 @@ import { Button } from '..';
 import { ButtonColors, ButtonSize } from '../../lib/constants';
 import { Todo } from '../../lib/types';
 import styles from './card.module.scss';
+import DeleteIcon from '../../assets/delete-icon.svg?url';
+import EditIcon from '../../assets/edit-icon.svg?url'
+
 
 interface TCard {
   content: Todo;
@@ -18,13 +21,13 @@ export const Card = ({ content }: TCard) => {
         <Button
           style={ButtonSize.SMALL}
           color={ButtonColors.BLUE}
-          content="Z"
+          content={<img src={EditIcon}/>}
           onButtonClick={() => {}}
         />
         <Button
-          style={ButtonSize.BIG}
+          style={ButtonSize.SMALL}
           color={ButtonColors.RED}
-          content="V"
+          content={<img src={DeleteIcon}/>}
           onButtonClick={() => {}}
         />
       </div>

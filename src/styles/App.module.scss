@@ -1,10 +1,10 @@
 @use "./variables";
 
-.background {
+.pages-wrapper {
 	display: flex;
-	justify-content: center;
-  width: 100wh;
-  height: 100vh;
+	flex-direction: column;
+	align-items: center;
+  min-height: 100vh;
   padding: 20px;
   background-color: variables.$main-background;
 }

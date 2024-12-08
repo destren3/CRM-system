@@ -23,7 +23,7 @@ export const TodosPage = () => {
       cardsContent={allContent ? allContent : []}
       onButtonAddClick={() => {}}
       tabs={tabs}
-      count={54}
+      count={5}
       isActive
       setIsActive={() => {}}
     />
