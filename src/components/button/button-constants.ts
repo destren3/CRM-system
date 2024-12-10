@@ -1,6 +1,6 @@
 export const ButtonColors = {
-  RED: 'red',
-  BLUE: 'blue',
+  SECONDARY: 'red',
+  PRIMARY: 'blue',
 } as const;
 
 export const ButtonSize = {

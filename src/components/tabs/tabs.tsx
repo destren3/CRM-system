@@ -1,5 +1,5 @@
-import { Tab } from '../..';
-import { TStatusRU } from '../../../lib/types';
+import { Tab } from '..';
+import { TStatusRU } from './status-types';
 import styles from './tabs.module.scss';
 
 interface TTabs {

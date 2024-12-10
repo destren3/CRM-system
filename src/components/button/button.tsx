@@ -1,5 +1,5 @@
 import styles from './button.module.scss';
-import { ButtonColors, ButtonSize } from '../../../lib/constants';
+import { ButtonColors, ButtonSize } from './button-constants';
 import React from 'react';
 
 interface TButton {
@@ -12,9 +12,10 @@ interface TButton {
 export const Button = ({ onButtonClick, content, style, color }: TButton) => {
   return (
     <button
-      className={`${style === ButtonSize.BIG ? styles[`button-${ButtonSize.BIG}`] : styles[`button-${ButtonSize.SMALL}`]}
-			 ${color === ButtonColors.RED ? styles[`button-${ButtonColors.RED}`] : styles[`button-${ButtonColors.BLUE}`]}`}
+      className={`${styles.button} ${style === ButtonSize.BIG ? styles[`button-${ButtonSize.BIG}`] : styles[`button-${ButtonSize.SMALL}`]}
+			 ${color === ButtonColors.SECONDARY ? styles[`button-${ButtonColors.SECONDARY}`] : styles[`button-${ButtonColors.PRIMARY}`]}`}
       onClick={onButtonClick}
+			type='submit'
     >
       {content}
     </button>
