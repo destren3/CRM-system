@@ -15,7 +15,7 @@ export const Button = ({ onButtonClick, content, style, color }: TButton) => {
       className={`${styles.button} ${style === ButtonSize.BIG ? styles[`button-${ButtonSize.BIG}`] : styles[`button-${ButtonSize.SMALL}`]}
 			 ${color === ButtonColors.SECONDARY ? styles[`button-${ButtonColors.SECONDARY}`] : styles[`button-${ButtonColors.PRIMARY}`]}`}
       onClick={onButtonClick}
-			type='submit'
+      type="submit"
     >
       {content}
     </button>

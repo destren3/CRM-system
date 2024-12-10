@@ -1,10 +1,5 @@
 import { TStatus } from '../../components/tabs/status-types';
-import {
-  MetaResponse,
-  Todo,
-  TodoInfo,
-  TodoRequest,
-} from '../../lib/types';
+import { MetaResponse, Todo, TodoInfo, TodoRequest } from '../../lib/types';
 import { apiFetcher } from '../core/fetcher';
 
 export const getNotes = (

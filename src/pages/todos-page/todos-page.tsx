@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Input, Tabs } from '../../components';
-import {
-  MetaResponse,
-  Todo,
-  TodoInfo,
-  TodoRequest,
-} from '../../lib/types';
+import { MetaResponse, Todo, TodoInfo, TodoRequest } from '../../lib/types';
 import styles from './todos-page.module.scss';
 import {
   deleteNote,
@@ -13,16 +8,27 @@ import {
   postNote,
   updateNote,
 } from '../../api/services/notes.service';
-import { ButtonColors, ButtonSize } from '../../components/button/button-constants';
+import {
+  ButtonColors,
+  ButtonSize,
+} from '../../components/button/button-constants';
 import { tabs } from '../../components/tabs/tabs-constants';
-import { statusTypes, translationStatusTypes } from '../../components/tabs/status-constants';
+import {
+  statusTypes,
+  translationStatusTypes,
+} from '../../components/tabs/status-constants';
 import { TStatusRU } from '../../components/tabs/status-types';
 
 export const TodosPage = () => {
   const [todoItems, setTodoItems] = useState<MetaResponse<Todo, TodoInfo>>();
-  const [currentTab, setIsCurrentTab] = useState<TStatusRU>(statusTypes.ALL.ru);
+  const [currentTab, setIsCurrentTab] = useState<TStatusRU>(statusTypes.ALL);
+
   const [inputValue, setInputValue] = useState<string>('');
-  const counts = todoItems?.info ? Object.values(todoItems.info) : [0, 0, 0];
+  const counts = {
+    Все: todoItems?.info?.all || 0,
+    Сделано: todoItems?.info?.completed || 0,
+    'В работе': todoItems?.info?.inWork || 0,
+  };
 
   const fetchNotes = async () => {
     try {
@@ -44,14 +50,14 @@ export const TodosPage = () => {
     setInputValue('');
   };
 
-	const handleSubmitAddCard = (data: TodoRequest) => {
-		if(inputValue.length < 2 || inputValue.length > 64) {
-			alert('Текст должен содержать от 2 до 64 символов!')
-			return
-		} else {
-			handleAddCard(data)
-		}
-	}
+  const handleSubmitAddCard = (data: TodoRequest) => {
+    if (inputValue.length < 2 || inputValue.length > 64) {
+      alert('Текст должен содержать от 2 до 64 символов!');
+      return;
+    } else {
+      handleAddCard(data);
+    }
+  };
 
   const handleUpdateCard = async (data: TodoRequest, id: number) => {
     await updateNote(data, id);

@@ -20,24 +20,26 @@ export const Card = ({
   handleUpdateCard,
 }: TCard) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [inputEditValue, setInputEditValue] = useState<string>(todoContent.title);
+  const [inputEditValue, setInputEditValue] = useState<string>(
+    todoContent.title
+  );
 
   const handleChangeCardState = (value: boolean) => {
-   setIsEdit(value), setInputEditValue(todoContent.title);
+    setIsEdit(value), setInputEditValue(todoContent.title);
   };
 
   const handleInputEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputEditValue(e.target.value);
   };
 
-	const handleSubmitUpdateCard = (data: TodoRequest, id: number) => {
-		if(inputEditValue.length < 2 || inputEditValue.length > 64) {
-			alert('Текст должен содержать от 2 до 64 символов!')
-			return
-		} else {
-			handleUpdateCard(data, id)
-		}
-	}
+  const handleSubmitUpdateCard = (data: TodoRequest, id: number) => {
+    if (inputEditValue.length < 2 || inputEditValue.length > 64) {
+      alert('Текст должен содержать от 2 до 64 символов!');
+      return;
+    } else {
+      handleUpdateCard(data, id);
+    }
+  };
 
   return (
     <>
@@ -55,7 +57,9 @@ export const Card = ({
               }
             />
             <span
-              className={todoContent.isDone === true ? styles.strikethrough : ''}
+              className={
+                todoContent.isDone === true ? styles.strikethrough : ''
+              }
             >
               {todoContent.title}
             </span>
