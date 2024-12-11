@@ -2,24 +2,18 @@ import { useEffect, useState } from 'react';
 import { Button, Card, Input, Tabs } from '../../components';
 import { MetaResponse, Todo, TodoInfo, TodoRequest } from '../../lib/types';
 import styles from './todos-page.module.scss';
-import {
-  getNotes,
-  postNote,
-} from '../../api/services/notes.service';
+import { getNotes, postNote } from '../../api/services/notes.service';
 import {
   ButtonColors,
   ButtonSize,
 } from '../../components/button/button-constants';
 import { tabs } from '../../components/tabs/tabs-constants';
-import {
-  statusTypes,
-  translationStatusTypes,
-} from '../../components/tabs/status-constants';
-import { TStatusRU } from '../../components/tabs/status-types';
+import { statusTypes } from '../../components/tabs/status-constants';
+import { TStatus } from '../../components/tabs/status-types';
 
 export const TodosPage = () => {
   const [todoItems, setTodoItems] = useState<MetaResponse<Todo, TodoInfo>>();
-  const [currentTab, setIsCurrentTab] = useState<TStatusRU>(statusTypes.ALL);
+  const [currentTab, setIsCurrentTab] = useState<TStatus>(statusTypes.ALL);
 
   const [inputValue, setInputValue] = useState<string>('');
   const counts = {
@@ -30,7 +24,7 @@ export const TodosPage = () => {
 
   const fetchNotes = async () => {
     try {
-      const todos = await getNotes(translationStatusTypes[currentTab]);
+      const todos = await getNotes(currentTab);
       setTodoItems(todos);
     } catch (error) {
       alert(`Произошла ошибка при получении заметок: ${error}`);
@@ -43,7 +37,11 @@ export const TodosPage = () => {
     setInputValue('');
   };
 
-  const handleSubmitAddCard = (data: TodoRequest) => {
+  const handleSubmitAddCard = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    data: TodoRequest
+  ) => {
+    e.preventDefault();
     if (inputValue.length < 2 || inputValue.length > 64) {
       alert('Текст должен содержать от 2 до 64 символов!');
       return;
@@ -69,8 +67,8 @@ export const TodosPage = () => {
           onChange={handleInputChange}
         />
         <Button
-          onButtonClick={() =>
-            handleSubmitAddCard({ title: inputValue || '', isDone: false })
+          onButtonClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+            handleSubmitAddCard(e, { title: inputValue || '', isDone: false })
           }
           content="Add"
           style={ButtonSize.BIG}
@@ -93,7 +91,7 @@ export const TodosPage = () => {
             <Card
               todoContent={todoItem}
               key={todoItem.id}
-							refreshNotes={fetchNotes}
+              refreshNotes={fetchNotes}
             />
           ))}
         </div>

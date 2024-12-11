@@ -1,18 +1,19 @@
-import { TStatusRU } from '../tabs/status-types';
+import { TStatus, TStatusRU } from '../tabs/status-types';
 import styles from './tab.module.scss';
+import { translationStatusTypes } from '../tabs/status-constants';
 
 interface TTab {
   content: TStatusRU;
   count: number;
-  currentTab: TStatusRU;
-  setIsCurrentTab: (status: TStatusRU) => void;
+  currentTab: TStatus;
+  setIsCurrentTab: (status: TStatus) => void;
 }
 
 export const Tab = ({ content, count, currentTab, setIsCurrentTab }: TTab) => {
   return (
     <button
-      className={`${styles.tab} ${currentTab === content && styles['tab-active']}`}
-      onClick={() => setIsCurrentTab(content)}
+      className={`${styles.tab} ${currentTab === translationStatusTypes[content] && styles['tab-active']}`}
+      onClick={() => setIsCurrentTab(translationStatusTypes[content])}
     >{`${content} (${count})`}</button>
   );
 };

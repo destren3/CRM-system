@@ -1,11 +1,11 @@
-export const statusTypes = {
-  ALL: 'Все',
-  COMPLETED: 'Сделано',
-  INWORK: 'В работе',
-} as const;
+export enum statusTypes {
+  ALL = 'all',
+  COMPLETED = 'completed',
+  INWORK = 'inWork',
+}
 
-export const translationStatusTypes = {
-  Все: 'all',
-  Сделано: 'completed',
-  'В работе': 'inWork',
-} as const;
+export enum translationStatusTypes {
+  Все = 'all',
+  Сделано = 'completed',
+  'В работе' = 'inWork',
+}

@@ -48,7 +48,7 @@ export const Card = ({ todoContent, refreshNotes }: TCard) => {
       return;
     } else {
       handleUpdateCard(data, id);
-			handleEditCardState(false);
+      handleEditCardState(false);
     }
   };
 
@@ -99,7 +99,7 @@ export const Card = ({ todoContent, refreshNotes }: TCard) => {
                 handleSubmitUpdateCard(
                   { title: inputEditValue, isDone: todoContent.isDone },
                   todoContent.id
-                )
+                );
               }}
               content={'Сохранить'}
               color={ButtonColors.PRIMARY}

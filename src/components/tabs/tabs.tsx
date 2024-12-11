@@ -1,12 +1,12 @@
 import { Tab } from '..';
-import { ICounts, TStatusRU } from './status-types';
+import { ICounts, TStatus, TStatusRU } from './status-types';
 import styles from './tabs.module.scss';
 
 interface TTabs {
   tabs: TStatusRU[];
   counts: ICounts;
-  currentTab: TStatusRU;
-  setIsCurrentTab: (status: TStatusRU) => void;
+  currentTab: TStatus;
+  setIsCurrentTab: (status: TStatus) => void;
 }
 
 export const Tabs = ({ tabs, counts, currentTab, setIsCurrentTab }: TTabs) => {
