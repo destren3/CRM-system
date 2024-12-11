@@ -9,23 +9,31 @@ import { deleteNote, updateNote } from '../../api/services/notes.service';
 
 interface TCard {
   todoContent: Todo;
-  refreshNotes: () => void;
+  refreshNotes: () => Promise<void>;
 }
 
-export const Card = ({ todoContent, refreshNotes }: TCard) => {
+export const CardTodo = ({ todoContent, refreshNotes }: TCard) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [inputEditValue, setInputEditValue] = useState<string>(
     todoContent.title
   );
 
   const handleDeleteCard = async (id: number) => {
-    await deleteNote(id);
-    refreshNotes();
+    try {
+      await deleteNote(id);
+      await refreshNotes();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleToggleCheckbox = async (data: TodoRequest, id: number) => {
-    await updateNote(data, id);
-    refreshNotes();
+    try {
+      await updateNote(data, id);
+      await refreshNotes();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleEditCardState = (value: boolean) => {
@@ -38,18 +46,21 @@ export const Card = ({ todoContent, refreshNotes }: TCard) => {
   };
 
   const handleUpdateCard = async (data: TodoRequest, id: number) => {
-    await updateNote(data, id);
-    refreshNotes();
+    try {
+      await updateNote(data, id);
+      await refreshNotes();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSubmitUpdateCard = (data: TodoRequest, id: number) => {
     if (inputEditValue.length < 2 || inputEditValue.length > 64) {
       alert('Текст должен содержать от 2 до 64 символов!');
       return;
-    } else {
-      handleUpdateCard(data, id);
-      handleEditCardState(false);
     }
+    handleUpdateCard(data, id);
+    handleEditCardState(false);
   };
 
   return (

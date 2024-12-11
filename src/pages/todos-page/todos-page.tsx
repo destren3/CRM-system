@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Card, Input, Tabs } from '../../components';
+import { Button, CardTodo, Input, Tabs } from '../../components';
 import { MetaResponse, Todo, TodoInfo, TodoRequest } from '../../lib/types';
 import styles from './todos-page.module.scss';
 import { getNotes, postNote } from '../../api/services/notes.service';
@@ -16,11 +16,11 @@ export const TodosPage = () => {
   const [currentTab, setIsCurrentTab] = useState<TStatus>(statusTypes.ALL);
 
   const [inputValue, setInputValue] = useState<string>('');
-  const counts = {
-    Все: todoItems?.info?.all || 0,
-    Сделано: todoItems?.info?.completed || 0,
-    'В работе': todoItems?.info?.inWork || 0,
-  };
+	const counts = {
+		all: todoItems?.info?.all || 0,
+		completed: todoItems?.info?.completed || 0,
+		inWork: todoItems?.info?.inWork || 0,
+	};	
 
   const fetchNotes = async () => {
     try {
@@ -38,7 +38,7 @@ export const TodosPage = () => {
   };
 
   const handleSubmitAddCard = (
-    e: React.MouseEvent<HTMLButtonElement>,
+    e: React.FormEvent<HTMLFormElement>,
     data: TodoRequest
   ) => {
     e.preventDefault();
@@ -60,16 +60,18 @@ export const TodosPage = () => {
 
   return (
     <div className={styles['page-wrapper']}>
-      <form className={styles['add-note-wrapper']}>
+      <form
+        className={styles['add-note-wrapper']}
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+          handleSubmitAddCard(e, { title: inputValue || '', isDone: false })
+        }
+      >
         <Input
           placeholder="Task To Be Done"
           value={inputValue || ''}
           onChange={handleInputChange}
         />
         <Button
-          onButtonClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-            handleSubmitAddCard(e, { title: inputValue || '', isDone: false })
-          }
           content="Add"
           style={ButtonSize.BIG}
           color={ButtonColors.PRIMARY}
@@ -88,7 +90,7 @@ export const TodosPage = () => {
       {todoItems && todoItems?.data?.length > 0 ? (
         <div className={styles['cards-wrapper']}>
           {todoItems.data.map((todoItem) => (
-            <Card
+            <CardTodo
               todoContent={todoItem}
               key={todoItem.id}
               refreshNotes={fetchNotes}

@@ -1,9 +1,9 @@
 import { Tab } from '..';
-import { ICounts, TStatus, TStatusRU } from './status-types';
+import { ICounts, TStatus } from './status-types';
 import styles from './tabs.module.scss';
 
 interface TTabs {
-  tabs: TStatusRU[];
+  tabs: TStatus[];
   counts: ICounts;
   currentTab: TStatus;
   setIsCurrentTab: (status: TStatus) => void;

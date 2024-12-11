@@ -4,8 +4,8 @@ export enum statusTypes {
   INWORK = 'inWork',
 }
 
-export enum translationStatusTypes {
-  Все = 'all',
-  Сделано = 'completed',
-  'В работе' = 'inWork',
-}
+export const translationStatusTypes = {
+  all: 'Все',
+  completed: 'Сделано',
+  inWork: 'В работе',
+} as const;
