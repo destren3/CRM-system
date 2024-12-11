@@ -16,16 +16,15 @@ export const TodosPage = () => {
   const [currentTab, setIsCurrentTab] = useState<TStatus>(statusTypes.ALL);
 
   const [inputValue, setInputValue] = useState<string>('');
-	const counts = {
-		all: todoItems?.info?.all || 0,
-		completed: todoItems?.info?.completed || 0,
-		inWork: todoItems?.info?.inWork || 0,
-	};	
+  const counts = {
+    all: todoItems?.info?.all || 0,
+    completed: todoItems?.info?.completed || 0,
+    inWork: todoItems?.info?.inWork || 0,
+  };
 
   const fetchNotes = async () => {
     try {
       const todos = await getNotes(currentTab);
-			console.log(todos)
       setTodoItems(todos);
     } catch (error) {
       alert(`Произошла ошибка при получении заметок: ${error}`);
@@ -57,6 +56,11 @@ export const TodosPage = () => {
 
   useEffect(() => {
     fetchNotes();
+    const interval = setInterval(() => {
+      fetchNotes();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, [currentTab]);
 
   return (
