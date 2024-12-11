@@ -3,10 +3,8 @@ import { Button, Card, Input, Tabs } from '../../components';
 import { MetaResponse, Todo, TodoInfo, TodoRequest } from '../../lib/types';
 import styles from './todos-page.module.scss';
 import {
-  deleteNote,
   getNotes,
   postNote,
-  updateNote,
 } from '../../api/services/notes.service';
 import {
   ButtonColors,
@@ -32,16 +30,11 @@ export const TodosPage = () => {
 
   const fetchNotes = async () => {
     try {
-      const content = await getNotes(translationStatusTypes[currentTab]);
-      setTodoItems(content);
+      const todos = await getNotes(translationStatusTypes[currentTab]);
+      setTodoItems(todos);
     } catch (error) {
-      console.log(error);
+      alert(`Произошла ошибка при получении заметок: ${error}`);
     }
-  };
-
-  const handleDeleteCard = async (id: number) => {
-    await deleteNote(id);
-    await fetchNotes();
   };
 
   const handleAddCard = async (data: TodoRequest) => {
@@ -59,16 +52,6 @@ export const TodosPage = () => {
     }
   };
 
-  const handleUpdateCard = async (data: TodoRequest, id: number) => {
-    await updateNote(data, id);
-    await fetchNotes();
-  };
-
-  const handleToggleCheckbox = async (data: TodoRequest, id: number) => {
-    await updateNote(data, id);
-    await fetchNotes();
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -83,7 +66,7 @@ export const TodosPage = () => {
         <Input
           placeholder="Task To Be Done"
           value={inputValue || ''}
-          onChange={(e) => handleInputChange(e)}
+          onChange={handleInputChange}
         />
         <Button
           onButtonClick={() =>
@@ -110,9 +93,7 @@ export const TodosPage = () => {
             <Card
               todoContent={todoItem}
               key={todoItem.id}
-              deleteCard={handleDeleteCard}
-              handleToggleCheckbox={handleToggleCheckbox}
-              handleUpdateCard={handleUpdateCard}
+							refreshNotes={fetchNotes}
             />
           ))}
         </div>

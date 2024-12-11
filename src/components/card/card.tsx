@@ -5,31 +5,41 @@ import styles from './card.module.scss';
 import DeleteIcon from '../../assets/delete-icon.svg?url';
 import EditIcon from '../../assets/edit-icon.svg?url';
 import { ButtonColors, ButtonSize } from '../button/button-constants';
+import { deleteNote, updateNote } from '../../api/services/notes.service';
 
 interface TCard {
   todoContent: Todo;
-  deleteCard: (id: number) => void;
-  handleToggleCheckbox: (data: TodoRequest, id: number) => void;
-  handleUpdateCard: (data: TodoRequest, id: number) => void;
+  refreshNotes: () => void;
 }
 
-export const Card = ({
-  todoContent,
-  deleteCard,
-  handleToggleCheckbox,
-  handleUpdateCard,
-}: TCard) => {
+export const Card = ({ todoContent, refreshNotes }: TCard) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [inputEditValue, setInputEditValue] = useState<string>(
     todoContent.title
   );
 
-  const handleChangeCardState = (value: boolean) => {
-    setIsEdit(value), setInputEditValue(todoContent.title);
+  const handleDeleteCard = async (id: number) => {
+    await deleteNote(id);
+    refreshNotes();
+  };
+
+  const handleToggleCheckbox = async (data: TodoRequest, id: number) => {
+    await updateNote(data, id);
+    refreshNotes();
+  };
+
+  const handleEditCardState = (value: boolean) => {
+    setIsEdit(value);
+    setInputEditValue(todoContent.title);
   };
 
   const handleInputEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputEditValue(e.target.value);
+  };
+
+  const handleUpdateCard = async (data: TodoRequest, id: number) => {
+    await updateNote(data, id);
+    refreshNotes();
   };
 
   const handleSubmitUpdateCard = (data: TodoRequest, id: number) => {
@@ -38,12 +48,13 @@ export const Card = ({
       return;
     } else {
       handleUpdateCard(data, id);
+			handleEditCardState(false);
     }
   };
 
   return (
     <>
-      {isEdit === false ? (
+      {!isEdit ? (
         <div className={styles.card}>
           <div className={styles[`card-content`]}>
             <input
@@ -56,11 +67,7 @@ export const Card = ({
                 )
               }
             />
-            <span
-              className={
-                todoContent.isDone === true ? styles.strikethrough : ''
-              }
-            >
+            <span className={todoContent.isDone ? styles.strikethrough : ''}>
               {todoContent.title}
             </span>
           </div>
@@ -69,13 +76,13 @@ export const Card = ({
               style={ButtonSize.SMALL}
               color={ButtonColors.PRIMARY}
               content={<img src={EditIcon} />}
-              onButtonClick={() => handleChangeCardState(true)}
+              onButtonClick={() => handleEditCardState(true)}
             />
             <Button
               style={ButtonSize.SMALL}
               color={ButtonColors.SECONDARY}
               content={<img src={DeleteIcon} />}
-              onButtonClick={() => deleteCard(todoContent.id)}
+              onButtonClick={() => handleDeleteCard(todoContent.id)}
             />
           </div>
         </div>
@@ -84,7 +91,7 @@ export const Card = ({
           <Input
             placeholder="Change task"
             value={inputEditValue}
-            onChange={(e) => handleInputEditChange(e)}
+            onChange={handleInputEditChange}
           />
           <div className={styles[`buttons-wrapper-edit`]}>
             <Button
@@ -92,15 +99,14 @@ export const Card = ({
                 handleSubmitUpdateCard(
                   { title: inputEditValue, isDone: todoContent.isDone },
                   todoContent.id
-                );
-                handleChangeCardState(false);
+                )
               }}
               content={'Сохранить'}
               color={ButtonColors.PRIMARY}
               style={ButtonSize.BIG}
             />
             <Button
-              onButtonClick={() => handleChangeCardState(false)}
+              onButtonClick={() => handleEditCardState(false)}
               content={'Отмена'}
               color={ButtonColors.SECONDARY}
               style={ButtonSize.BIG}
