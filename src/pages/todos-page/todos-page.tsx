@@ -25,6 +25,7 @@ export const TodosPage = () => {
   const fetchNotes = async () => {
     try {
       const todos = await getNotes(currentTab);
+			console.log(todos)
       setTodoItems(todos);
     } catch (error) {
       alert(`Произошла ошибка при получении заметок: ${error}`);

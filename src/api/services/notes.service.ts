@@ -1,21 +1,25 @@
 import { TStatus } from '../../components/tabs/status-types';
 import { MetaResponse, Todo, TodoInfo, TodoRequest } from '../../lib/types';
-import { apiFetcher } from '../core/fetcher';
+import { api } from '../api';
 
-export const getNotes = (
+export const getNotes = async (
   status: TStatus
 ): Promise<MetaResponse<Todo, TodoInfo>> => {
-  return apiFetcher.get(`todos?filter=${status}`);
+  const response = await api.get(`todos?filter=${status}`);
+	return response.data
 };
 
-export const postNote = (data: TodoRequest): Promise<Todo> => {
-  return apiFetcher.post(`todos`, data);
+export const postNote = async (data: TodoRequest): Promise<Todo> => {
+  const response = await api.post(`todos`, data);
+	return response.data
 };
 
-export const deleteNote = (id: number): Promise<Todo> => {
-  return apiFetcher.delete(`todos/${id}`, id);
+export const deleteNote = async (id: number): Promise<Todo> => {
+  const response = await api.delete(`todos/${id}`);
+	return response.data
 };
 
-export const updateNote = (data: TodoRequest, id: number): Promise<Todo> => {
-  return apiFetcher.put(`todos/${id}`, data);
+export const updateNote = async (data: TodoRequest, id: number): Promise<Todo> => {
+  const response = await api.put(`todos/${id}`, data);
+	return response.data
 };
