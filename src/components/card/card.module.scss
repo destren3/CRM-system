@@ -1,0 +1,42 @@
+@use '../../styles/variables';
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 120px;
+  max-width: 500px;
+  width: 100%;
+  padding: 30px;
+  background-color: variables.$light-color;
+  border-radius: 10px;
+}
+
+.card:hover {
+  background-color: variables.$light-color-hover;
+}
+
+.card-content {
+  display: flex;
+  justify-items: start;
+  gap: 10px;
+  padding: 10px;
+  font-size: 1.3rem;
+  overflow: hidden;
+}
+
+.buttons-wrapper-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.buttons-wrapper-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}

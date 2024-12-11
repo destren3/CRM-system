@@ -1,0 +1,18 @@
+@use '../../styles/variables';
+
+.input {
+  max-width: 300px;
+  width: 100%;
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid;
+}
+
+.input:hover {
+  border-bottom: 1px solid variables.$primary-color-hover;
+}
+
+.input:focus {
+  border-bottom: 1px solid variables.$primary-color;
+}

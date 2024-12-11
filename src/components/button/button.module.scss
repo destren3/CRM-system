@@ -1,0 +1,36 @@
+@use '../../styles/variables';
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  border-radius: 5px;
+  color: white;
+
+  &-big {
+    max-width: 150px;
+    width: 100%;
+    padding: 5px;
+  }
+
+  &-small {
+    width: 40px;
+  }
+
+  &-red {
+    background-color: variables.$secondary-color;
+  }
+
+  &-red:hover {
+    background-color: variables.$secondary-color-hover;
+  }
+
+  &-blue {
+    background-color: variables.$primary-color;
+  }
+
+  &-blue:hover {
+    background-color: variables.$primary-color-hover;
+  }
+}
