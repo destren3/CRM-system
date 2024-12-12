@@ -1,0 +1,23 @@
+@use '../../styles/variables';
+
+.pages-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  background-color: variables.$primary-background;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  padding-block: 20px;
+}
+
+.sider {
+  position: fixed;
+  height: 100vh;
+  background-color: variables.$secondary-background;
+}
+
+.menu {
+  background-color: variables.$secondary-background;
+}
