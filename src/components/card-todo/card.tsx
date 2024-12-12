@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { Button, Input } from '..';
 import { Todo, TodoRequest } from '../../lib/types';
 import styles from './card.module.scss';
-import DeleteIcon from '../../assets/delete-icon.svg?url';
-import EditIcon from '../../assets/edit-icon.svg?url';
-import { ButtonColors, ButtonSize } from '../button/button-constants';
 import { deleteNote, updateNote } from '../../api/services/notes.service';
+import { Button, Input, Checkbox } from 'antd';
+import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 
 interface TCard {
   todoContent: Todo;
@@ -68,7 +66,7 @@ export const CardTodo = ({ todoContent, refreshNotes }: TCard) => {
       {!isEdit ? (
         <div className={styles.card}>
           <div className={styles[`card-content`]}>
-            <input
+            <Checkbox
               type="checkbox"
               checked={todoContent.isDone}
               onChange={() =>
@@ -84,16 +82,16 @@ export const CardTodo = ({ todoContent, refreshNotes }: TCard) => {
           </div>
           <div className={styles[`buttons-wrapper-actions`]}>
             <Button
-              style={ButtonSize.SMALL}
-              color={ButtonColors.PRIMARY}
-              content={<img src={EditIcon} />}
-              onButtonClick={() => handleEditCardState(true)}
+              color="primary"
+              variant="solid"
+              icon={<FormOutlined />}
+              onClick={() => handleEditCardState(true)}
             />
             <Button
-              style={ButtonSize.SMALL}
-              color={ButtonColors.SECONDARY}
-              content={<img src={DeleteIcon} />}
-              onButtonClick={() => handleDeleteCard(todoContent.id)}
+              color="danger"
+              variant="solid"
+              icon={<DeleteOutlined />}
+              onClick={() => handleDeleteCard(todoContent.id)}
             />
           </div>
         </div>
@@ -106,22 +104,24 @@ export const CardTodo = ({ todoContent, refreshNotes }: TCard) => {
           />
           <div className={styles[`buttons-wrapper-edit`]}>
             <Button
-              onButtonClick={() => {
+              variant="solid"
+              color="primary"
+              onClick={() => {
                 handleSubmitUpdateCard(
                   { title: inputEditValue, isDone: todoContent.isDone },
                   todoContent.id
                 );
               }}
-              content={'Сохранить'}
-              color={ButtonColors.PRIMARY}
-              style={ButtonSize.BIG}
-            />
+            >
+              Сохранить
+            </Button>
             <Button
-              onButtonClick={() => handleEditCardState(false)}
-              content={'Отмена'}
-              color={ButtonColors.SECONDARY}
-              style={ButtonSize.BIG}
-            />
+              variant="solid"
+              color="danger"
+              onClick={() => handleEditCardState(false)}
+            >
+              Отмена
+            </Button>
           </div>
         </div>
       )}
