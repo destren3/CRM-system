@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { CardTodo } from '../../components';
+import { TaskTitleInput, TodoList } from '../../components';
 import { MetaResponse, Todo, TodoInfo, TodoRequest } from '../../lib/types';
 import styles from './todos-page.module.scss';
 import { getNotes, postNote } from '../../api/services/notes.service';
 import { TStatus } from '../../lib/types';
-import { Button, Tabs, Input, Form } from 'antd';
+import { Button, Tabs, Form } from 'antd';
 
 export const TodosPage = () => {
   const [todoItems, setTodoItems] = useState<MetaResponse<Todo, TodoInfo>>();
@@ -62,23 +62,10 @@ export const TodosPage = () => {
           handleAddCard({ title: values.title || '', isDone: false })
         }
       >
-        <Form.Item
-          className={styles.input}
-          name="title"
-          rules={[
-            { min: 2, message: 'Задача должна содержать минимум 2 символа.' },
-            {
-              max: 64,
-              message: 'Задача должна содержать не более 64 символов.',
-            },
-          ]}
-        >
-          <Input
-            placeholder="Task To Be Done"
-            value={inputValue || ''}
-            onChange={handleInputChange}
-          />
-        </Form.Item>
+        <TaskTitleInput
+          inputValue={inputValue}
+          handleInputChange={handleInputChange}
+        />
         <Button type="primary" htmlType="submit" content="Add">
           Add
         </Button>
@@ -93,15 +80,7 @@ export const TodosPage = () => {
       </div>
 
       {todoItems && todoItems?.data?.length > 0 ? (
-        <div className={styles['cards-wrapper']}>
-          {todoItems.data.map((todoItem) => (
-            <CardTodo
-              todoContent={todoItem}
-              key={todoItem.id}
-              refreshNotes={fetchNotes}
-            />
-          ))}
-        </div>
+        <TodoList todoItems={todoItems} fetchNotes={fetchNotes} />
       ) : (
         'Загрузка...'
       )}
