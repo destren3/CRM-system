@@ -1,15 +1,61 @@
 import { Route, Routes } from 'react-router-dom';
-import { ProfilePage, TodosPage } from './pages';
-import { AppLayout } from './components'; // Импортируем новый Layout
+import {
+  ForgotPasswordPage,
+  LoginPage,
+  ProfilePage,
+  RegistrationPage,
+  TodosPage,
+} from './pages';
+import { AppLayout } from './components';
+import { AuthLayout } from './components/auth-layout/auth-layout';
 
 function App() {
   return (
-    <AppLayout>
-      <Routes>
-        <Route path="/" element={<TodosPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-      </Routes>
-    </AppLayout>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <AppLayout>
+            <TodosPage />
+          </AppLayout>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <AppLayout>
+            <ProfilePage />
+          </AppLayout>
+        }
+      />
+      <Route
+        path="/registration"
+        element={
+          <AuthLayout image="/public/green lock.jpg" title="Регистрация">
+            <RegistrationPage />
+          </AuthLayout>
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          <AuthLayout image="/public/blue lock.jpg" title="Вход">
+            <LoginPage />
+          </AuthLayout>
+        }
+      />
+      <Route
+        path="/forgot-password"
+        element={
+          <AuthLayout
+            image="/public/purple lock.jpg"
+            title="Восстановление пароля"
+          >
+            <ForgotPasswordPage />
+          </AuthLayout>
+        }
+      />
+    </Routes>
   );
 }
 
