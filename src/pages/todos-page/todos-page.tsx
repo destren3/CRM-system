@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { TaskTitleInput, TodoList } from '../../components';
 import { MetaResponse, Todo, TodoInfo, TodoRequest } from '../../lib/types';
 import styles from './todos-page.module.scss';
-import { getNotes, postNote } from '../../api/services/notes.service';
+import { getNotes, postNote } from '../../api/services';
 import { TStatus } from '../../lib/types';
 import { Button, Tabs, Form } from 'antd';
 
