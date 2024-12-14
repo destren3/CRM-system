@@ -1,4 +1,4 @@
-import { Button, Form } from 'antd';
+import { Button, Form, Typography, notification } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import styles from './login-page.module.scss';
 import { AuthInput } from '../../../components';
@@ -15,8 +15,15 @@ export const LoginPage = () => {
       await loginUser(data);
       form.resetFields();
       navigate('/');
+      notification.success({
+        message: 'Вход выполнен',
+        description: 'Добро пожаловать! Вы успешно вошли в систему.',
+      });
     } catch (error) {
-      alert(error);
+      notification.error({
+        message: 'Ошибка входа',
+        description: 'Проверьте логин и пароль и попробуйте снова.',
+      });
     }
   };
   return (
@@ -51,9 +58,15 @@ export const LoginPage = () => {
           },
         ]}
       />
-      <Button type="primary" htmlType="submit">
+      <Button type="primary" htmlType="submit" className={styles.button}>
         Войти
       </Button>
+      <Typography>
+        Нет аккаунта? <a href="/registration">Зарегистрироваться</a>
+      </Typography>
+      <Typography>
+        Забыли пароль? <a href="/forgot-password">Восстановить</a>
+      </Typography>
     </Form>
   );
 };

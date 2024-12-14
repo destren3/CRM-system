@@ -1,10 +1,15 @@
 import { Layout, Menu } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
-import { UserOutlined, FileTextOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  FileTextOutlined,
+  LogoutOutlined,
+} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import styles from './app-layout.module.scss';
 import { useState } from 'react';
+import { logoutUser } from '../../api/services';
 
 export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -14,6 +19,15 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
 
   const handleMenuClick = (path: string) => {
     navigate(path);
+  };
+
+  const handleLogoutClick = async () => {
+    try {
+      await logoutUser();
+      navigate('/login');
+    } catch {
+      console.log('govno');
+    }
   };
 
   return (
@@ -36,6 +50,9 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
             </Menu.Item>
             <Menu.Item key="/profile" icon={<UserOutlined />}>
               Профиль
+            </Menu.Item>
+            <Menu.Item icon={<LogoutOutlined />} onClick={handleLogoutClick}>
+              Выход
             </Menu.Item>
           </Menu>
         </Sider>

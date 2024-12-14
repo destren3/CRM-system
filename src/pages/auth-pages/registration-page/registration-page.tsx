@@ -1,4 +1,4 @@
-import { Button, Form } from 'antd';
+import { Button, Form, Typography, notification } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import styles from './registration-page.module.scss';
 import { AuthInput } from '../../../components';
@@ -15,8 +15,17 @@ export const RegistrationPage = () => {
       await registerUser(data);
       form.resetFields();
       navigate('/login');
-    } catch (error) {
-      alert(error);
+      notification.success({
+        message: 'Регистрация успешна',
+        description:
+          'Вы успешно зарегистрировались. Теперь вы можете войти в систему.',
+      });
+    } catch {
+      notification.error({
+        message: 'Ошибка регистрации',
+        description:
+          'Не удалось завершить регистрацию. Попробуйте снова или обратитесь в поддержку.',
+      });
     }
   };
   return (
@@ -47,9 +56,9 @@ export const RegistrationPage = () => {
         rules={[
           { required: true, message: 'Введите имя пользователя' },
           {
-            min: 2,
+            min: 1,
             max: 60,
-            message: 'Имя пользователя должно быть от 2 до 60 символов',
+            message: 'Имя пользователя должно быть от 1 до 60 символов',
           },
         ]}
       />
@@ -88,9 +97,12 @@ export const RegistrationPage = () => {
           },
         ]}
       />
-      <Button type="primary" htmlType="submit">
+      <Button type="primary" htmlType="submit" className={styles.button}>
         Зарегистрироваться
       </Button>
+      <Typography>
+        Есть аккаунт? <a href="/login">Вход</a>
+      </Typography>
     </Form>
   );
 };

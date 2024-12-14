@@ -31,7 +31,7 @@ function App() {
       <Route
         path="/registration"
         element={
-          <AuthLayout image="/public/green lock.jpg" title="Регистрация">
+          <AuthLayout image="/green lock.jpg" title="Регистрация">
             <RegistrationPage />
           </AuthLayout>
         }
@@ -39,7 +39,7 @@ function App() {
       <Route
         path="/login"
         element={
-          <AuthLayout image="/public/blue lock.jpg" title="Вход">
+          <AuthLayout image="/blue lock.jpg" title="Вход">
             <LoginPage />
           </AuthLayout>
         }
@@ -47,10 +47,7 @@ function App() {
       <Route
         path="/forgot-password"
         element={
-          <AuthLayout
-            image="/public/purple lock.jpg"
-            title="Восстановление пароля"
-          >
+          <AuthLayout image="/purple lock.jpg" title="Восстановление пароля">
             <ForgotPasswordPage />
           </AuthLayout>
         }

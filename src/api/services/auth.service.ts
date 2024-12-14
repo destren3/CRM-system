@@ -7,6 +7,7 @@ import {
   Token,
   UserRegistration,
 } from '../../lib/types';
+import { removeCookie, setCookie } from '../../lib/utils';
 import { api } from '../api';
 
 export const registerUser = async (
@@ -24,6 +25,8 @@ export const registerUser = async (
 export const loginUser = async (data: AuthData): Promise<Token> => {
   try {
     const response = await api.post('/auth/signin', data);
+    setCookie('accessToken', response.data.accessToken, 60);
+    localStorage.setItem('refreshToken', response.data.refreshToken);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -74,7 +77,9 @@ export const changePassword = async (data: PasswordRequest): Promise<void> => {
 
 export const logoutUser = async (): Promise<void> => {
   try {
-    await api.post(' /user/logout');
+    await api.post('/user/logout');
+    removeCookie('accessToken');
+    localStorage.removeItem('refreshToken');
   } catch (error) {
     console.log(error);
     throw error;
