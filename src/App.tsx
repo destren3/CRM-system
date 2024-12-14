@@ -6,7 +6,7 @@ import {
   RegistrationPage,
   TodosPage,
 } from './pages';
-import { AppLayout } from './components';
+import { AppLayout, ProtectedRoute } from './components';
 import { AuthLayout } from './components/auth-layout/auth-layout';
 
 function App() {
@@ -15,17 +15,21 @@ function App() {
       <Route
         path="/"
         element={
-          <AppLayout>
-            <TodosPage />
-          </AppLayout>
+          <ProtectedRoute>
+            <AppLayout>
+              <TodosPage />
+            </AppLayout>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/profile"
         element={
-          <AppLayout>
-            <ProfilePage />
-          </AppLayout>
+          <ProtectedRoute>
+            <AppLayout>
+              <ProfilePage />
+            </AppLayout>
+          </ProtectedRoute>
         }
       />
       <Route
