@@ -14,13 +14,19 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+let isRefreshing = false;
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const storedRefreshToken = localStorage.getItem('refreshToken');
     if (error.response.status === 401 && storedRefreshToken) {
       try {
-        await refreshToken({ refreshToken: storedRefreshToken });
+        if (!isRefreshing) {
+          isRefreshing = true;
+          await refreshToken({ refreshToken: storedRefreshToken });
+          isRefreshing = false;
+        }
         return api(error.config);
       } catch (error) {
         console.log(error);
