@@ -5,6 +5,7 @@ import { AuthInput } from '../../../components';
 import { UserRegistration } from '../../../lib/types';
 import { registerUser } from '../../../api/services';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 export const RegistrationPage = () => {
   const [form] = useForm();
@@ -20,11 +21,13 @@ export const RegistrationPage = () => {
         description:
           'Вы успешно зарегистрировались. Теперь вы можете войти в систему.',
       });
-    } catch {
+    } catch (error) {
       notification.error({
         message: 'Ошибка регистрации',
         description:
-          'Не удалось завершить регистрацию. Попробуйте снова или обратитесь в поддержку.',
+          error instanceof AxiosError
+            ? error.response?.data
+            : 'Не удалось завершить регистрацию. Попробуйте снова или обратитесь в поддержку.',
       });
     }
   };

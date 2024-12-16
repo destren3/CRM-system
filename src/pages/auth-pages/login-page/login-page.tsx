@@ -5,6 +5,7 @@ import { AuthInput } from '../../../components';
 import { AuthData } from '../../../lib/types';
 import { loginUser } from '../../../api/services';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 export const LoginPage = () => {
   const [form] = useForm();
@@ -22,7 +23,10 @@ export const LoginPage = () => {
     } catch (error) {
       notification.error({
         message: 'Ошибка входа',
-        description: 'Проверьте логин и пароль и попробуйте снова.',
+        description:
+          error instanceof AxiosError
+            ? error.response?.data
+            : 'Проверьте логин и пароль и попробуйте снова.',
       });
     }
   };
@@ -63,9 +67,6 @@ export const LoginPage = () => {
       </Button>
       <Typography>
         Нет аккаунта? <a href="/registration">Зарегистрироваться</a>
-      </Typography>
-      <Typography>
-        Забыли пароль? <a href="/forgot-password">Восстановить</a>
       </Typography>
     </Form>
   );

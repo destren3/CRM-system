@@ -1,11 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import {
-  ForgotPasswordPage,
-  LoginPage,
-  ProfilePage,
-  RegistrationPage,
-  TodosPage,
-} from './pages';
+import { LoginPage, ProfilePage, RegistrationPage, TodosPage } from './pages';
 import { AppLayout, ProtectedRoute } from './components';
 import { AuthLayout } from './components/auth-layout/auth-layout';
 
@@ -45,14 +39,6 @@ function App() {
         element={
           <AuthLayout image="/blue lock.jpg" title="Вход">
             <LoginPage />
-          </AuthLayout>
-        }
-      />
-      <Route
-        path="/forgot-password"
-        element={
-          <AuthLayout image="/purple lock.jpg" title="Восстановление пароля">
-            <ForgotPasswordPage />
           </AuthLayout>
         }
       />
