@@ -23,5 +23,3 @@ export interface MetaResponse<T, N> {
     totalAmount: number;
   };
 }
-
-export type TStatus = 'all' | 'completed' | 'inWork';
