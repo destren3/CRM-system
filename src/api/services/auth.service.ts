@@ -37,6 +37,8 @@ export const loginUser = async (data: AuthData): Promise<Token> => {
 export const refreshToken = async (data: RefreshToken): Promise<Token> => {
   try {
     const response = await api.post('/auth/refresh', data);
+    setCookie('accessToken', response.data.accessToken, 30);
+    localStorage.setItem('refreshToken', response.data.refreshToken);
     return response.data;
   } catch (error) {
     console.log(error);

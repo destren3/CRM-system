@@ -17,18 +17,40 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
 
-  const handleMenuClick = (path: string) => {
-    navigate(path);
+  const handleMenuClick = ({ key }: { key: string }) => {
+    if (key === 'logout') {
+      handleLogoutClick();
+    } else {
+      navigate(key);
+    }
   };
 
   const handleLogoutClick = async () => {
     try {
       await logoutUser();
       navigate('/login');
-    } catch {
-      console.log('govno');
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  const menuItems = [
+    {
+      key: '/',
+      icon: <FileTextOutlined />,
+      label: 'Заметки',
+    },
+    {
+      key: '/profile',
+      icon: <UserOutlined />,
+      label: 'Профиль',
+    },
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: 'Выход',
+    },
+  ];
 
   return (
     <Layout>
@@ -43,18 +65,9 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
             className={styles.menu}
             mode="inline"
             defaultSelectedKeys={['/']}
-            onClick={(e) => handleMenuClick(e.key)}
-          >
-            <Menu.Item key="/" icon={<FileTextOutlined />}>
-              Заметки
-            </Menu.Item>
-            <Menu.Item key="/profile" icon={<UserOutlined />}>
-              Профиль
-            </Menu.Item>
-            <Menu.Item icon={<LogoutOutlined />} onClick={handleLogoutClick}>
-              Выход
-            </Menu.Item>
-          </Menu>
+            items={menuItems}
+            onClick={handleMenuClick}
+          />
         </Sider>
         <Content className={styles.content}>{children}</Content>
       </Layout>
