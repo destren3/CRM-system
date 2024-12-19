@@ -6,6 +6,7 @@ import { AuthData } from '../../../lib/types';
 import { loginUser } from '../../../api/services';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+import Link from 'antd/es/typography/Link';
 
 export const LoginPage = () => {
   const [form] = useForm();
@@ -31,43 +32,52 @@ export const LoginPage = () => {
     }
   };
   return (
-    <Form
-      form={form}
-      className={styles.form}
-      onFinish={(value) =>
-        handleLoginUser({
-          login: value.login,
-          password: value.password,
-        })
-      }
-    >
-      <AuthInput
-        placeholder="login"
-        name="login"
-        rules={[
-          { required: true, message: 'Введите логин' },
-          { min: 2, max: 60, message: 'Логин должен быть от 2 до 60 символов' },
-        ]}
-      />
-      <AuthInput
-        placeholder="password"
-        name="password"
-        type="password"
-        rules={[
-          { required: true, message: 'Введите пароль' },
-          {
-            min: 6,
-            max: 60,
-            message: 'Пароль должен быть от 6 до 60 символов',
-          },
-        ]}
-      />
-      <Button type="primary" htmlType="submit" className={styles.button}>
-        Войти
-      </Button>
-      <Typography>
-        Нет аккаунта? <a href="/registration">Зарегистрироваться</a>
-      </Typography>
-    </Form>
+    <>
+      <Typography.Title level={4} className={styles.title}>
+        Вход
+      </Typography.Title>
+      <Form
+        form={form}
+        className={styles.form}
+        onFinish={(value) =>
+          handleLoginUser({
+            login: value.login,
+            password: value.password,
+          })
+        }
+      >
+        <AuthInput
+          placeholder="login"
+          name="login"
+          rules={[
+            { required: true, message: 'Введите логин' },
+            {
+              min: 2,
+              max: 60,
+              message: 'Логин должен быть от 2 до 60 символов',
+            },
+          ]}
+        />
+        <AuthInput
+          placeholder="password"
+          name="password"
+          type="password"
+          rules={[
+            { required: true, message: 'Введите пароль' },
+            {
+              min: 6,
+              max: 60,
+              message: 'Пароль должен быть от 6 до 60 символов',
+            },
+          ]}
+        />
+        <Button type="primary" htmlType="submit" className={styles.button}>
+          Войти
+        </Button>
+        <Typography>
+          Нет аккаунта? <Link href="/registration">Зарегистрироваться</Link>
+        </Typography>
+      </Form>
+    </>
   );
 };

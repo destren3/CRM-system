@@ -1,27 +1,24 @@
-import { Layout, Card, Typography } from 'antd';
-import React from 'react';
+import { Layout, Card } from 'antd';
 import styles from './auth-layout.module.scss';
+import { Outlet } from 'react-router-dom';
 
 const { Content } = Layout;
-const { Title } = Typography;
 
 interface AuthLayoutProps {
-  children: React.ReactNode;
-  title: string;
-  image: string;
+  images: string[];
 }
 
-export const AuthLayout = ({ children, title, image }: AuthLayoutProps) => {
+export const AuthLayout = ({ images }: AuthLayoutProps) => {
+  const randomImage = images[Math.floor(Math.random() * images.length)];
   return (
     <Layout className={styles.layout}>
-      <img src={image} className={styles.image} />
+      <img src={randomImage} className={styles.image} />
 
       <Content className={styles.content}>
         <Card bordered className={styles.card}>
-          <Title level={4} className={styles.title}>
-            {title}
-          </Title>
-          <div className={styles['content-container']}>{children}</div>
+          <div className={styles['content-container']}>
+            <Outlet />
+          </div>
         </Card>
       </Content>
     </Layout>

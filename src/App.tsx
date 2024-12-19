@@ -7,41 +7,26 @@ function App() {
   return (
     <Routes>
       <Route
-        path="/"
         element={
           <ProtectedRoute>
-            <AppLayout>
-              <TodosPage />
-            </AppLayout>
+            <AppLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route path="/" element={<TodosPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Route>
+
       <Route
-        path="/profile"
         element={
-          <ProtectedRoute>
-            <AppLayout>
-              <ProfilePage />
-            </AppLayout>
-          </ProtectedRoute>
+          <AuthLayout
+            images={['/blue-lock.jpg', '/green-lock.jpg', '/purple-lock.jpg']}
+          />
         }
-      />
-      <Route
-        path="/registration"
-        element={
-          <AuthLayout image="/green lock.jpg" title="Регистрация">
-            <RegistrationPage />
-          </AuthLayout>
-        }
-      />
-      <Route
-        path="/login"
-        element={
-          <AuthLayout image="/blue lock.jpg" title="Вход">
-            <LoginPage />
-          </AuthLayout>
-        }
-      />
+      >
+        <Route path="/registration" element={<RegistrationPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Route>
     </Routes>
   );
 }

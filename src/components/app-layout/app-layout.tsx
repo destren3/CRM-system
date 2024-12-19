@@ -6,14 +6,12 @@ import {
   FileTextOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styles from './app-layout.module.scss';
 import { useState } from 'react';
 import { logoutUser } from '../../api/services';
 
-export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AppLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
 
@@ -69,7 +67,9 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
             onClick={handleMenuClick}
           />
         </Sider>
-        <Content className={styles.content}>{children}</Content>
+        <Content className={styles.content}>
+          <Outlet />
+        </Content>
       </Layout>
     </Layout>
   );

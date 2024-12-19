@@ -1,3 +1,5 @@
+@use '../../styles/variables';
+
 .layout {
   display: flex;
   flex-direction: row;
@@ -7,7 +9,8 @@
 .image {
   width: 60vw;
   height: 100vh;
-  background-color: grey;
+  padding: 20px;
+  background-color: variables.$secondary-background;
 }
 
 .content {
@@ -26,11 +29,6 @@
   max-width: 450px;
   width: 100%;
   border-radius: 8px;
-}
-
-.title {
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 .image {
