@@ -6,6 +6,7 @@ import { UserRegistration } from '../../../lib/types';
 import { registerUser } from '../../../api/services';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+import { Link } from 'react-router-dom';
 
 export const RegistrationPage = () => {
   const [form] = useForm();
@@ -117,7 +118,7 @@ export const RegistrationPage = () => {
           Зарегистрироваться
         </Button>
         <Typography>
-          Есть аккаунт? <a href="/login">Вход</a>
+          Есть аккаунт? <Link to='/login'>Вход</Link>
         </Typography>
       </Form>
     </>

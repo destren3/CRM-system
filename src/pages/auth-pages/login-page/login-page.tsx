@@ -6,7 +6,7 @@ import { AuthData } from '../../../lib/types';
 import { loginUser } from '../../../api/services';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import Link from 'antd/es/typography/Link';
+import { Link } from 'react-router-dom';
 
 export const LoginPage = () => {
   const [form] = useForm();
@@ -77,7 +77,7 @@ export const LoginPage = () => {
           Войти
         </Button>
         <Typography>
-          Нет аккаунта? <Link href="/registration">Зарегистрироваться</Link>
+          Нет аккаунта? <Link to="/registration">Зарегистрироваться</Link>
         </Typography>
       </Form>
     </>
