@@ -1,7 +1,7 @@
 import { Button, Form, Typography, notification } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import styles from './login-page.module.scss';
-import { AuthInput } from '../../../components';
+import { FormInput } from '../../../components';
 import { AuthData } from '../../../lib/types';
 import { loginUser } from '../../../api/services';
 import { useNavigate } from 'react-router-dom';
@@ -46,7 +46,7 @@ export const LoginPage = () => {
           })
         }
       >
-        <AuthInput
+        <FormInput
           placeholder="login"
           name="login"
           rules={[
@@ -57,8 +57,9 @@ export const LoginPage = () => {
               message: 'Логин должен быть от 2 до 60 символов',
             },
           ]}
+          className={styles['form-item']}
         />
-        <AuthInput
+        <FormInput
           placeholder="password"
           name="password"
           type="password"
@@ -70,6 +71,7 @@ export const LoginPage = () => {
               message: 'Пароль должен быть от 6 до 60 символов',
             },
           ]}
+          className={styles['form-item']}
         />
         <Button type="primary" htmlType="submit" className={styles.button}>
           Войти

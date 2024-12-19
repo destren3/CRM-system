@@ -1,7 +1,7 @@
 import { Button, Form, Typography, notification } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import styles from './registration-page.module.scss';
-import { AuthInput } from '../../../components';
+import { FormInput } from '../../../components';
 import { UserRegistration } from '../../../lib/types';
 import { registerUser } from '../../../api/services';
 import { useNavigate } from 'react-router-dom';
@@ -49,7 +49,7 @@ export const RegistrationPage = () => {
           })
         }
       >
-        <AuthInput
+        <FormInput
           placeholder="login"
           name="login"
           rules={[
@@ -60,8 +60,9 @@ export const RegistrationPage = () => {
               message: 'Логин должен быть от 2 до 60 символов',
             },
           ]}
+          className={styles['form-item']}
         />
-        <AuthInput
+        <FormInput
           placeholder="username"
           name="username"
           rules={[
@@ -72,8 +73,9 @@ export const RegistrationPage = () => {
               message: 'Имя пользователя должно быть от 1 до 60 символов',
             },
           ]}
+          className={styles['form-item']}
         />
-        <AuthInput
+        <FormInput
           placeholder="password"
           name="password"
           type="password"
@@ -85,8 +87,9 @@ export const RegistrationPage = () => {
               message: 'Пароль должен быть от 6 до 60 символов',
             },
           ]}
+          className={styles['form-item']}
         />
-        <AuthInput
+        <FormInput
           placeholder="email"
           name="email"
           rules={[
@@ -96,8 +99,9 @@ export const RegistrationPage = () => {
               message: 'Введите корректный адрес электронной почты',
             },
           ]}
+          className={styles['form-item']}
         />
-        <AuthInput
+        <FormInput
           placeholder="phone number"
           name="phoneNumber"
           rules={[
@@ -107,6 +111,7 @@ export const RegistrationPage = () => {
                 'Номер телефона должен содержать только цифры и может начинаться с +',
             },
           ]}
+          className={styles['form-item']}
         />
         <Button type="primary" htmlType="submit" className={styles.button}>
           Зарегистрироваться

@@ -13,11 +13,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   const fetchUserInfo = async () => {
     try {
-      const user = await getUserProfile();
-
-      if (!user) {
-        navigate('/login', { replace: true });
-      }
+      await getUserProfile();
     } catch (error) {
       console.log(error);
       navigate('/login', { replace: true });

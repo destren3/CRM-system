@@ -1,7 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { LoginPage, ProfilePage, RegistrationPage, TodosPage } from './pages';
-import { AppLayout, ProtectedRoute } from './components';
-import { AuthLayout } from './components/auth-layout/auth-layout';
+import { AppLayout, ProtectedRoute, AuthLayout } from './components';
 
 function App() {
   return (

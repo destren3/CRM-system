@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TaskTitleInput, TodoList } from '../../components';
+import { FormInput, TodoList } from '../../components';
 import { MetaResponse, Todo, TodoInfo, TodoRequest } from '../../lib/types';
 import styles from './todos-page.module.scss';
 import { getNotes, postNote } from '../../api/services';
@@ -62,9 +62,19 @@ export const TodosPage = () => {
           handleAddCard({ title: values.title || '', isDone: false })
         }
       >
-        <TaskTitleInput
-          inputValue={inputValue}
+        <FormInput
+          name="title"
+          placeholder="Task To Be Done"
+          value={inputValue}
           handleInputChange={handleInputChange}
+          rules={[
+            { min: 2, message: 'Задача должна содержать минимум 2 символа.' },
+            {
+              max: 64,
+              message: 'Задача должна содержать не более 64 символов.',
+            },
+          ]}
+          className={styles.input}
         />
         <Button type="primary" htmlType="submit" content="Add">
           Add
