@@ -9,6 +9,7 @@ import {
 } from '../../lib/types';
 import { removeCookie, setCookie } from '../../lib/utils';
 import { api } from '../api';
+import { tokenService } from './token.service';
 
 export const registerUser = async (
   data: UserRegistration
@@ -25,8 +26,8 @@ export const registerUser = async (
 export const loginUser = async (data: AuthData): Promise<Token> => {
   try {
     const response = await api.post('/auth/signin', data);
-    setCookie('accessToken', response.data.accessToken, 60);
-    localStorage.setItem('refreshToken', response.data.refreshToken);
+    tokenService.setAccessToken(response.data.accessToken);
+    setCookie('refreshToken', response.data.refreshToken, 3000);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -37,8 +38,8 @@ export const loginUser = async (data: AuthData): Promise<Token> => {
 export const refreshToken = async (data: RefreshToken): Promise<Token> => {
   try {
     const response = await api.post('/auth/refresh', data);
-    setCookie('accessToken', response.data.accessToken, 30);
-    localStorage.setItem('refreshToken', response.data.refreshToken);
+    tokenService.setAccessToken(response.data.accessToken);
+    setCookie('refreshToken', response.data.refreshToken, 3000);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -80,8 +81,8 @@ export const changePassword = async (data: PasswordRequest): Promise<void> => {
 export const logoutUser = async (): Promise<void> => {
   try {
     await api.post('/user/logout');
-    removeCookie('accessToken');
-    localStorage.removeItem('refreshToken');
+    tokenService.clearAccessToken();
+    removeCookie('refreshToken');
   } catch (error) {
     console.log(error);
     throw error;
