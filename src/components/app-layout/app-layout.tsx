@@ -1,20 +1,54 @@
 import { Layout, Menu } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
-import { UserOutlined, FileTextOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import {
+  UserOutlined,
+  FileTextOutlined,
+  LogoutOutlined,
+} from '@ant-design/icons';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styles from './app-layout.module.scss';
 import { useState } from 'react';
+import { logoutUser } from '../../api/services';
 
-export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AppLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
 
-  const handleMenuClick = (path: string) => {
-    navigate(path);
+  const handleMenuClick = ({ key }: { key: string }) => {
+    if (key === 'logout') {
+      handleLogoutClick();
+    } else {
+      navigate(key);
+    }
   };
+
+  const handleLogoutClick = async () => {
+    try {
+      await logoutUser();
+      navigate('/login');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const menuItems = [
+    {
+      key: '/',
+      icon: <FileTextOutlined />,
+      label: 'Заметки',
+    },
+    {
+      key: '/profile',
+      icon: <UserOutlined />,
+      label: 'Профиль',
+    },
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: 'Выход',
+    },
+  ];
 
   return (
     <Layout>
@@ -29,17 +63,13 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
             className={styles.menu}
             mode="inline"
             defaultSelectedKeys={['/']}
-            onClick={(e) => handleMenuClick(e.key)}
-          >
-            <Menu.Item key="/" icon={<FileTextOutlined />}>
-              Заметки
-            </Menu.Item>
-            <Menu.Item key="/profile" icon={<UserOutlined />}>
-              Профиль
-            </Menu.Item>
-          </Menu>
+            items={menuItems}
+            onClick={handleMenuClick}
+          />
         </Sider>
-        <Content className={styles.content}>{children}</Content>
+        <Content className={styles.content}>
+          <Outlet />
+        </Content>
       </Layout>
     </Layout>
   );

@@ -1,4 +1,6 @@
-export { CardTodo } from './card-todo/card';
+export { AuthLayout } from './auth-layout/auth-layout';
 export { AppLayout } from './app-layout/app-layout';
+export { ProtectedRoute } from './protected-route/protected-route';
 export { TodoList } from './todo-list/todo-list';
-export { TaskTitleInput } from './task-title-input/task-title-input';
+export { CardTodo } from './card-todo/card';
+export { FormInput } from './form-input/form-input';

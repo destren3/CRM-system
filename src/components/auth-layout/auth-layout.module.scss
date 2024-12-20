@@ -1,0 +1,42 @@
+@use '../../styles/variables';
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+.image {
+  width: 60vw;
+  height: 100vh;
+  padding: 20px;
+  background-color: variables.$secondary-background;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  max-width: 450px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.image {
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .image {
+    display: none;
+  }
+}
