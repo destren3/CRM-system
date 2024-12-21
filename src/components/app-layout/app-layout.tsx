@@ -44,7 +44,11 @@ export const AppLayout: React.FC = () => {
       icon: <UserOutlined />,
       label: 'Профиль',
     },
-    { key: '/administration', icon: <SettingOutlined />, label: 'Админка' },
+    {
+      key: '/administration',
+      icon: <SettingOutlined />,
+      label: 'Пользователи',
+    },
     {
       key: 'logout',
       icon: <LogoutOutlined />,

@@ -8,12 +8,14 @@ import {
 import { api } from '../api';
 
 export const getUsers = async (
-  data: UserFilters
+  data?: UserFilters
 ): Promise<MetaResponseUsers<User>> => {
   const params = new URLSearchParams(
-    Object.entries(data)
-      .filter(([_, value]) => value !== undefined && value !== null)
-      .map(([key, value]) => [key, value.toString()])
+    data
+      ? Object.entries(data)
+          .filter(([_, value]) => value !== undefined && value !== null)
+          .map(([key, value]) => [key, value.toString()])
+      : ''
   );
   try {
     const users = await api.get(`/admin/users?${params}`);

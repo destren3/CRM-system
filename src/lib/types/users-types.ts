@@ -15,7 +15,7 @@ export interface User {
   email: string;
   date: string; // ISO date string
   isBlocked: boolean;
-  roles: Roles[];
+  isAdmin: boolean;
   phoneNumber: string;
 }
 // Интерфейс метаинформации
