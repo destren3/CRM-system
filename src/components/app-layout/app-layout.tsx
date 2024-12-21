@@ -5,6 +5,7 @@ import {
   UserOutlined,
   FileTextOutlined,
   LogoutOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styles from './app-layout.module.scss';
@@ -43,6 +44,7 @@ export const AppLayout: React.FC = () => {
       icon: <UserOutlined />,
       label: 'Профиль',
     },
+    { key: '/administration', icon: <SettingOutlined />, label: 'Админка' },
     {
       key: 'logout',
       icon: <LogoutOutlined />,

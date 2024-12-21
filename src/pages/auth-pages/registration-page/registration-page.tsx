@@ -118,7 +118,7 @@ export const RegistrationPage = () => {
           Зарегистрироваться
         </Button>
         <Typography>
-          Есть аккаунт? <Link to='/login'>Вход</Link>
+          Есть аккаунт? <Link to="/login">Вход</Link>
         </Typography>
       </Form>
     </>
