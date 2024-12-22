@@ -1,10 +1,10 @@
-import { Table, TablePaginationConfig, Typography } from 'antd';
-import { columns } from './administration-page-constants';
+import { Button, Space, Table, TablePaginationConfig, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { MetaResponseUsers, User } from '../../lib/types';
-import { getUsers } from '../../api/services';
+import { deleteUser, getUsers } from '../../api/services';
 import styles from './administration-page.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { Modal } from 'antd';
 
 const { Title } = Typography;
 
@@ -12,6 +12,87 @@ export const AdministrationPage = () => {
   const [users, setUsers] = useState<MetaResponseUsers<User> | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const navigate = useNavigate();
+
+  const handleDeleteUser = async (recordKey: number) => {
+    try {
+      await deleteUser(recordKey);
+      await fetchUsers();
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handleOpenConfirmModal = (recordKey: number) => {
+    Modal.confirm({
+      title: 'Вы уверены, что хотите удалить этого пользователя?',
+      content: 'Это действие необратимо.',
+      okText: 'Да, удалить',
+      okType: 'danger',
+      cancelText: 'Отмена',
+      onOk() {
+        handleDeleteUser(recordKey);
+      },
+      onCancel() {
+        console.log('Удаление отменено');
+      },
+    });
+  };
+
+  const columns = [
+    {
+      title: 'Имя',
+      dataIndex: 'Имя',
+      key: 'Имя',
+    },
+    {
+      title: 'Почта',
+      dataIndex: 'Почта',
+      key: 'Почта',
+    },
+    {
+      title: 'Дата регистрации',
+      dataIndex: 'Дата регистрации',
+      key: 'Дата регистрации',
+    },
+    {
+      title: 'Статус блокировки',
+      dataIndex: 'Статус блокировки',
+      key: 'Статус блокировки',
+    },
+    {
+      title: 'Роль',
+      dataIndex: 'Роль',
+      key: 'Роль',
+    },
+    {
+      title: 'Номер телефона',
+      dataIndex: 'Номер телефона',
+      key: 'Номер телефона',
+    },
+    {
+      title: 'Действия',
+      dataIndex: 'Действия',
+      key: 'Действия',
+      render: (_: string, record: { key: number }) => (
+        <Space>
+          <Button
+            variant="solid"
+            color="primary"
+            onClick={() => handleNavigateToUser(record.key)}
+          >
+            Профиль
+          </Button>
+          <Button
+            variant="solid"
+            color="danger"
+            onClick={() => handleOpenConfirmModal(record.key)}
+          >
+            Удалить
+          </Button>
+        </Space>
+      ),
+    },
+  ];
 
   const fetchUsers = async (offset?: number) => {
     try {
@@ -64,14 +145,6 @@ export const AdministrationPage = () => {
           total: users?.meta.totalAmount,
           showSizeChanger: false,
           current: currentPage,
-        }}
-        onRow={(record) => {
-          return {
-            onClick: () => {
-              handleNavigateToUser(record.key);
-            },
-            className: styles.row,
-          };
         }}
         onChange={handleTablePageChange}
         bordered
