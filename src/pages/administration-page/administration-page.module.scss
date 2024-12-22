@@ -27,3 +27,14 @@
   border-radius: 8px;
   overflow: hidden;
 }
+
+.actions-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.action-button {
+  padding: 0;
+  font-size: 12px;
+}

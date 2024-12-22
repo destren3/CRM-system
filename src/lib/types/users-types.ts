@@ -4,8 +4,8 @@ export interface UserFilters {
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
   isBlocked?: boolean;
-  limit?: number; // сколько на странице
-  offset?: number; // страницу
+  limit?: number;
+  offset?: number;
 }
 
 // Интерфейс пользователя
@@ -18,8 +18,8 @@ export interface User {
   isAdmin: boolean;
   phoneNumber: string;
 }
-// Интерфейс метаинформации
 
+// Интерфейс метаинформации
 export interface MetaResponseUsers<T> {
   data: T[];
   meta: {
@@ -28,11 +28,11 @@ export interface MetaResponseUsers<T> {
     sortOrder: 'asc' | 'desc';
   };
 }
+
 // Интерфейс для обновления прав пользователя
 export interface UserRolesRequest {
-  roles: Roles[]; // при вызове этой апи роли будут обновлены к тому массиву который будет передан
-  // например если у вас была roles: ['ADMIN'] а вы хотите добавить ['MODERATOR'] то нужно передавать
-  // старые + новые - roles: ['ADMIN', 'MODERATOR']
+  field: string;
+  value: boolean;
 }
 
 // Интерфейс для обновления данных пользователя
@@ -40,9 +40,4 @@ export interface UserRequest {
   username?: string;
   email?: string;
   phoneNumber?: string;
-}
-
-enum Roles {
-  ADMIN = 'ADMIN',
-  MODERATOR = 'MODERATOR',
 }

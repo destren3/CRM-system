@@ -41,7 +41,7 @@ export const updateUserRights = async (
   id: number
 ): Promise<User> => {
   try {
-    const user = await api.put(`/admin/users/${id}/rights`, role);
+    const user = await api.post(`/admin/users/${id}/rights`, role);
     return user.data;
   } catch (error) {
     console.log(error);
