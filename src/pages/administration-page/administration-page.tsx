@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import { MetaResponseUsers, User } from '../../lib/types';
 import { getUsers } from '../../api/services';
 import styles from './administration-page.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const { Title } = Typography;
 
 export const AdministrationPage = () => {
   const [users, setUsers] = useState<MetaResponseUsers<User> | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const navigate = useNavigate();
 
   const fetchUsers = async (offset?: number) => {
     try {
@@ -20,7 +22,7 @@ export const AdministrationPage = () => {
     }
   };
 
-  const handleTableChange = async (pagination: TablePaginationConfig) => {
+  const handleTablePageChange = async (pagination: TablePaginationConfig) => {
     try {
       if (pagination.current) setCurrentPage(pagination.current);
       await fetchUsers(currentPage);
@@ -29,8 +31,12 @@ export const AdministrationPage = () => {
     }
   };
 
-  const data = users?.data?.map((user, index) => ({
-    key: index,
+  const handleNavigateToUser = (id: number) => {
+    navigate(`/profile/${id}`);
+  };
+
+  const data = users?.data?.map((user) => ({
+    key: user.id,
     Имя: user.username || 'Нет данных',
     Почта: user.email || 'Нет данных',
     'Дата регистрации': user.date || 'Нет данных',
@@ -59,7 +65,15 @@ export const AdministrationPage = () => {
           showSizeChanger: false,
           current: currentPage,
         }}
-        onChange={handleTableChange}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              handleNavigateToUser(record.key);
+            },
+            className: styles.row,
+          };
+        }}
+        onChange={handleTablePageChange}
         bordered
         className={styles.table}
       />

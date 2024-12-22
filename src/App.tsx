@@ -19,7 +19,7 @@ function App() {
         }
       >
         <Route path="/" element={<TodosPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/:id?" element={<ProfilePage />} />
         <Route path="/administration" element={<AdministrationPage />} />
       </Route>
 

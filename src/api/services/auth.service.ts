@@ -47,7 +47,7 @@ export const refreshToken = async (data: RefreshToken): Promise<Token> => {
   }
 };
 
-export const getUserProfile = async (): Promise<Profile> => {
+export const getCurrentUserProfile = async (): Promise<Profile> => {
   try {
     const response = await api.get('/user/profile');
     return response.data;

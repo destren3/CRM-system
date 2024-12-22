@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUserProfile } from '../../api/services';
+import { getCurrentUserProfile } from '../../api/services';
 import { useNavigate } from 'react-router-dom';
 import styles from './protected-route.module.scss';
 
@@ -13,7 +13,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   const fetchUserInfo = async () => {
     try {
-      await getUserProfile();
+      await getCurrentUserProfile();
     } catch (error) {
       console.log(error);
       navigate('/login', { replace: true });
