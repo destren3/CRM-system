@@ -16,12 +16,12 @@ import {
 import styles from './administration-page.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'antd';
+import { FilterValue } from 'antd/es/table/interface';
 
 const { Title } = Typography;
 
 export const AdministrationPage = () => {
   const [users, setUsers] = useState<MetaResponseUsers<User> | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const navigate = useNavigate();
 
   const handleDeleteUser = async (recordKey: number) => {
@@ -53,14 +53,6 @@ export const AdministrationPage = () => {
   ) => {
     try {
       await updateUserRights(roleStatus, recordKey);
-      await fetchUsers();
-    } catch (error) {
-      alert(error);
-    }
-  };
-
-  const filterUsersByBlockStatus = async () => {
-    try {
       await fetchUsers();
     } catch (error) {
       alert(error);
@@ -116,10 +108,21 @@ export const AdministrationPage = () => {
     });
   };
 
-  const handleTablePageChange = async (pagination: TablePaginationConfig) => {
+  const handleTablePageChange = async (
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue | null>
+  ) => {
     try {
-      if (pagination.current) setCurrentPage(pagination.current);
-      await fetchUsers({ offset: currentPage });
+      if (filters.blockStatus) {
+        const isBlocked = filters.blockStatus[0] === 'Заблокирован';
+        await fetchUsers({
+          isBlocked: isBlocked,
+        });
+      } else {
+        await fetchUsers({
+          offset: pagination.current,
+        });
+      }
     } catch (error) {
       alert(error);
     }
@@ -131,7 +134,10 @@ export const AdministrationPage = () => {
 
   const fetchUsers = async (data?: UserFilters) => {
     try {
-      const users = await getUsers({ offset: data?.offset });
+      const users = await getUsers({
+        offset: data?.offset,
+        isBlocked: data?.isBlocked,
+      });
       setUsers(users);
     } catch (error) {
       alert(error);
@@ -264,7 +270,6 @@ export const AdministrationPage = () => {
           pageSize: 20,
           total: users?.meta.totalAmount,
           showSizeChanger: false,
-          current: currentPage,
         }}
         onChange={handleTablePageChange}
         bordered
