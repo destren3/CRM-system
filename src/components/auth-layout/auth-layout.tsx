@@ -1,6 +1,7 @@
 import { Layout, Card } from 'antd';
 import styles from './auth-layout.module.scss';
 import { Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const { Content } = Layout;
 
@@ -9,10 +10,20 @@ interface AuthLayoutProps {
 }
 
 export const AuthLayout = ({ images }: AuthLayoutProps) => {
-  const randomImage = images[Math.floor(Math.random() * images.length)];
+  const [currentImage, setIsCurrentImage] = useState<string>(() => {
+    return images[Math.floor(Math.random() * images.length)];
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsCurrentImage(images[Math.floor(Math.random() * images.length)]);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Layout className={styles.layout}>
-      <img src={randomImage} className={styles.image} />
+      <img src={currentImage} className={styles.image} alt="Random Image" />
 
       <Content className={styles.content}>
         <Card bordered className={styles.card}>
