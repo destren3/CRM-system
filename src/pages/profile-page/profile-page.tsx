@@ -10,12 +10,15 @@ import styles from './profile-page.module.scss';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'antd/es/form/Form';
 import { FormInput } from '../../components';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 export const ProfilePage = () => {
   const [userInfo, setUserInfo] = useState<Profile | null>(null);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const { id } = useParams<{ id: string }>();
   const [form] = useForm();
+  const user = useSelector((state: RootState) => state.user.user);
 
   const handleSetIsEdit = () => {
     setIsEdit(!isEdit);
@@ -70,9 +73,11 @@ export const ProfilePage = () => {
               {userInfo?.username || 'Нет данных'}
             </Descriptions.Item>
           </Descriptions>
-          <Button onClick={handleSetIsEdit} type="primary">
-            Редактировать
-          </Button>
+          {user?.isAdmin && (
+            <Button onClick={handleSetIsEdit} type="primary">
+              Редактировать
+            </Button>
+          )}
         </>
       ) : (
         <Form
