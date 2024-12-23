@@ -16,7 +16,8 @@ import {
 import styles from './administration-page.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'antd';
-import { FilterValue } from 'antd/es/table/interface';
+import { FilterValue, SorterResult } from 'antd/es/table/interface';
+import { TableRow } from './types';
 
 const { Title } = Typography;
 
@@ -110,14 +111,25 @@ export const AdministrationPage = () => {
 
   const handleTablePageChange = async (
     pagination: TablePaginationConfig,
-    filters: Record<string, FilterValue | null>
+    filters: Record<string, FilterValue | null>,
+    sorter: SorterResult<TableRow> | SorterResult<TableRow>[]
   ) => {
     try {
+      if (Array.isArray(sorter)) {
+        return;
+      }
+
       if (filters.blockStatus) {
         const isBlocked = filters.blockStatus[0] === 'Заблокирован';
         await fetchUsers({
           isBlocked: isBlocked,
         });
+      } else if (sorter.field === 'email') {
+        const sortOrder = sorter.order === 'ascend' ? 'asc' : 'desc';
+        await fetchUsers({ sortBy: 'email', sortOrder: sortOrder });
+      } else if (sorter.field === 'name') {
+        const sortOrder = sorter.order === 'ascend' ? 'asc' : 'desc';
+        await fetchUsers({ sortBy: 'email', sortOrder: sortOrder });
       } else {
         await fetchUsers({
           offset: pagination.current,
@@ -137,6 +149,8 @@ export const AdministrationPage = () => {
       const users = await getUsers({
         offset: data?.offset,
         isBlocked: data?.isBlocked,
+        sortBy: data?.sortBy,
+        sortOrder: data?.sortOrder,
       });
       setUsers(users);
     } catch (error) {
