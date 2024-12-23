@@ -280,7 +280,7 @@ export const AdministrationPage = () => {
     email: user.email || 'Нет данных',
     registrationDate: user.date || 'Нет данных',
     blockStatus: user.isBlocked ? 'Заблокирован' : 'Не заблокирован',
-    role: (user.isAdmin === true && 'Admin') || 'Нет данных',
+    role: user.isAdmin !== undefined ? (user.isAdmin ? 'Admin' : 'User') : 'Нет данных',
     phoneNumber: user.phoneNumber || 'Нет данных',
   }));
 
