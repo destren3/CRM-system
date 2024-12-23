@@ -11,10 +11,13 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import styles from './app-layout.module.scss';
 import { useState } from 'react';
 import { logoutUser } from '../../api/services';
+import { RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
 
 export const AppLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.user.user);
 
   const handleMenuClick = ({ key }: { key: string }) => {
     if (key === 'logout') {
@@ -44,11 +47,15 @@ export const AppLayout: React.FC = () => {
       icon: <UserOutlined />,
       label: 'Профиль',
     },
-    {
-      key: '/administration',
-      icon: <SettingOutlined />,
-      label: 'Пользователи',
-    },
+    ...(user.isAdmin
+      ? [
+          {
+            key: '/administration',
+            icon: <SettingOutlined />,
+            label: 'Пользователи',
+          },
+        ]
+      : []),
     {
       key: 'logout',
       icon: <LogoutOutlined />,

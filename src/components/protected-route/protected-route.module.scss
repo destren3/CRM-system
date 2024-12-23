@@ -1,6 +1,12 @@
 .loading {
   display: flex;
   justify-content: center;
-  font-size: 2rem;
+  padding-block-start: 40px;
+}
+
+.accessDeniedMessage {
+  font-size: 1.5rem;
   font-weight: bold;
+  text-align: center;
+  padding-block-start: 50px;
 }
