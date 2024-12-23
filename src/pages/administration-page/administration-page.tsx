@@ -1,4 +1,11 @@
-import { Button, Space, Table, TablePaginationConfig, Typography } from 'antd';
+import {
+  Button,
+  Input,
+  Space,
+  Table,
+  TablePaginationConfig,
+  Typography,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import {
   MetaResponseUsers,
@@ -18,12 +25,17 @@ import { useNavigate } from 'react-router-dom';
 import { Modal } from 'antd';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { TableRow } from './types';
+import { SearchOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 
 export const AdministrationPage = () => {
   const [users, setUsers] = useState<MetaResponseUsers<User> | null>(null);
   const navigate = useNavigate();
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    fetchUsers({ search: e.target.value });
+  };
 
   const handleDeleteUser = async (recordKey: number) => {
     try {
@@ -151,6 +163,7 @@ export const AdministrationPage = () => {
         isBlocked: data?.isBlocked,
         sortBy: data?.sortBy,
         sortOrder: data?.sortOrder,
+        search: data?.search,
       });
       setUsers(users);
     } catch (error) {
@@ -194,6 +207,7 @@ export const AdministrationPage = () => {
           value: 'Не заблокирован',
         },
       ],
+      filterMultiple: false,
     },
     {
       title: 'Роль',
@@ -276,6 +290,12 @@ export const AdministrationPage = () => {
         <Title level={2} className={styles.title}>
           Список пользователей
         </Title>
+        <Input
+          className={styles['search-input']}
+          placeholder="Поиск по таблице"
+          prefix={<SearchOutlined />}
+          onChange={handleSearch}
+        />
       </div>
       <Table
         dataSource={data}
