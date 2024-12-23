@@ -3,20 +3,12 @@ import { Profile } from '../../lib/types';
 import { getCurrentUserProfile } from '../../api/services';
 
 interface UserState {
-  user: Profile;
+  user: Profile | null;
   loading: boolean;
 }
 
 const initialState: UserState = {
-  user: {
-    id: 0,
-    username: '',
-    email: '',
-    date: '',
-    isBlocked: false,
-    isAdmin: false,
-    phoneNumber: '',
-  },
+  user: null,
   loading: false,
 };
 

@@ -29,7 +29,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return <Spin size="large" className={styles.loading} />;
   }
 
-  if (location.pathname === '/administration' && !user.isAdmin) {
+  if (location.pathname === '/administration' && !user?.isAdmin) {
     return (
       <div className={styles.accessDeniedMessage}>
         Недостаточно прав для доступа к данной странице

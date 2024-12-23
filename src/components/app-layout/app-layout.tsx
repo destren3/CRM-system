@@ -47,7 +47,7 @@ export const AppLayout: React.FC = () => {
       icon: <UserOutlined />,
       label: 'Профиль',
     },
-    ...(user.isAdmin
+    ...(user?.isAdmin
       ? [
           {
             key: '/administration',
