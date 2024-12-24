@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './protected-route.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../../store/slices/user-slice';
-import { AppDispatch, RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import { Spin } from 'antd';
+import { getCurrentUserProfile } from '../../api/services';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -13,16 +13,21 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
   const isLoading = useSelector((state: RootState) => state.user.loading);
 
-  if (!user) {
-    navigate('/login', { replace: true });
-  }
+  const fetchUserInfo = async () => {
+    try {
+      await getCurrentUserProfile();
+    } catch (error) {
+      console.log(error);
+      navigate('/login', { replace: true });
+    } finally {
+    }
+  };
 
   useEffect(() => {
-    dispatch(fetchUser());
+    fetchUserInfo();
   }, []);
 
   if (isLoading) {

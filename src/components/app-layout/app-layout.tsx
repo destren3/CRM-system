@@ -8,18 +8,26 @@ import {
 } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styles from './app-layout.module.scss';
-import { useState } from 'react';
-import { RootState } from '../../store/store';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { AppDispatch, RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from '../../store/slices/user-slice';
 
 export const AppLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user.user);
+  const dispatch: AppDispatch = useDispatch();
 
   const handleMenuClick = ({ key }: { key: string }) => {
     navigate(key);
   };
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(fetchUser());
+    }
+  }, [dispatch, user]);
 
   const menuItems = [
     {
