@@ -31,16 +31,17 @@ const { Title } = Typography;
 
 export const AdministrationPage = () => {
   const [users, setUsers] = useState<MetaResponseUsers<User> | null>(null);
+  const [currentPaginationPage, setCurrentPaginationPage] = useState<number>(1);
   const navigate = useNavigate();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     fetchUsers({ search: e.target.value });
   };
 
-  const handleDeleteUser = async (recordKey: number) => {
+  const handleDeleteUser = async (recordKey: number, currentPage: number) => {
     try {
       await deleteUser(recordKey);
-      await fetchUsers();
+      await fetchUsers({ offset: currentPage });
     } catch (error) {
       alert(error);
     }
@@ -48,13 +49,14 @@ export const AdministrationPage = () => {
 
   const handleChangeBlockStatus = async (
     blockStatus: string,
-    recordKey: number
+    recordKey: number,
+    currentPage: number
   ) => {
     try {
       blockStatus === 'Заблокирован'
         ? await unblockUser(recordKey)
         : await blockUser(recordKey);
-      await fetchUsers();
+      await fetchUsers({ offset: currentPage });
     } catch (error) {
       alert(error);
     }
@@ -62,11 +64,12 @@ export const AdministrationPage = () => {
 
   const handleChangeRoleStatus = async (
     roleStatus: UserRolesRequest,
-    recordKey: number
+    recordKey: number,
+    currentPage: number
   ) => {
     try {
       await updateUserRights(roleStatus, recordKey);
-      await fetchUsers();
+      await fetchUsers({ offset: currentPage });
     } catch (error) {
       alert(error);
     }
@@ -80,7 +83,7 @@ export const AdministrationPage = () => {
       okType: 'danger',
       cancelText: 'Отмена',
       onOk() {
-        handleDeleteUser(recordKey);
+        handleDeleteUser(recordKey, currentPaginationPage);
       },
       onCancel() {
         console.log('Удаление отменено');
@@ -95,7 +98,7 @@ export const AdministrationPage = () => {
       okType: 'danger',
       cancelText: 'Отмена',
       onOk() {
-        handleChangeBlockStatus(blockStatus, recordKey);
+        handleChangeBlockStatus(blockStatus, recordKey, currentPaginationPage);
       },
       onCancel() {
         console.log('Изменение отменено');
@@ -113,7 +116,7 @@ export const AdministrationPage = () => {
       okType: 'danger',
       cancelText: 'Отмена',
       onOk() {
-        handleChangeRoleStatus(roleStatus, recordKey);
+        handleChangeRoleStatus(roleStatus, recordKey, currentPaginationPage);
       },
       onCancel() {
         console.log('Изменение отменено');
@@ -130,18 +133,28 @@ export const AdministrationPage = () => {
       if (Array.isArray(sorter)) {
         return;
       }
+      setCurrentPaginationPage(pagination.current || 1);
 
       if (filters.blockStatus) {
         const isBlocked = filters.blockStatus[0] === 'Заблокирован';
         await fetchUsers({
           isBlocked: isBlocked,
+          offset: pagination.current,
         });
       } else if (sorter.field === 'email') {
         const sortOrder = sorter.order === 'ascend' ? 'asc' : 'desc';
-        await fetchUsers({ sortBy: 'email', sortOrder: sortOrder });
+        await fetchUsers({
+          sortBy: 'email',
+          sortOrder: sortOrder,
+          offset: pagination.current,
+        });
       } else if (sorter.field === 'name') {
         const sortOrder = sorter.order === 'ascend' ? 'asc' : 'desc';
-        await fetchUsers({ sortBy: 'email', sortOrder: sortOrder });
+        await fetchUsers({
+          sortBy: 'name',
+          sortOrder: sortOrder,
+          offset: pagination.current,
+        });
       } else {
         await fetchUsers({
           offset: pagination.current,
