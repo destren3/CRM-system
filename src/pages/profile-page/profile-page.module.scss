@@ -1,4 +1,14 @@
-.highlight {
-  font-size: 1.1rem;
-  font-weight: bold;
+.card {
+  max-width: 650px;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.descriptors {
+  margin-bottom: 24px;
+}
+
+.buttons-wrapper {
+  display: flex;
+  gap: 5px;
 }

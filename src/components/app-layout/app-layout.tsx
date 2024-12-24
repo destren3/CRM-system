@@ -4,33 +4,30 @@ import Sider from 'antd/es/layout/Sider';
 import {
   UserOutlined,
   FileTextOutlined,
-  LogoutOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styles from './app-layout.module.scss';
-import { useState } from 'react';
-import { logoutUser } from '../../api/services';
+import { useEffect, useState } from 'react';
+import { AppDispatch, RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from '../../store/slices/user-slice';
 
 export const AppLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.user.user);
+  const dispatch: AppDispatch = useDispatch();
 
   const handleMenuClick = ({ key }: { key: string }) => {
-    if (key === 'logout') {
-      handleLogoutClick();
-    } else {
-      navigate(key);
-    }
+    navigate(key);
   };
 
-  const handleLogoutClick = async () => {
-    try {
-      await logoutUser();
-      navigate('/login');
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (!user) {
+      dispatch(fetchUser());
     }
-  };
+  }, [dispatch, user]);
 
   const menuItems = [
     {
@@ -43,11 +40,15 @@ export const AppLayout: React.FC = () => {
       icon: <UserOutlined />,
       label: 'Профиль',
     },
-    {
-      key: 'logout',
-      icon: <LogoutOutlined />,
-      label: 'Выход',
-    },
+    ...(user?.isAdmin
+      ? [
+          {
+            key: '/administration',
+            icon: <SettingOutlined />,
+            label: 'Пользователи',
+          },
+        ]
+      : []),
   ];
 
   return (
