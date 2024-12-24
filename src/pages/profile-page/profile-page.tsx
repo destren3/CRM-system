@@ -17,6 +17,7 @@ import { RootState } from '../../store/store';
 export const ProfilePage = () => {
   const [userInfo, setUserInfo] = useState<Profile | null>(null);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [changedValues, setChangedValues] = useState<Partial<UserRequest>>({});
   const { id } = useParams<{ id: string }>();
   const [form] = useForm();
   const user = useSelector((state: RootState) => state.user.user);
@@ -35,16 +36,23 @@ export const ProfilePage = () => {
     }
   };
 
-  const handleSubmitEditUserForm = useCallback(async (data: UserRequest) => {
+  const handleSubmitEditUserForm = useCallback(async () => {
     try {
-      if (!id) throw new Error('id обязателен для обновления профиля');
-      const userInfo = await updateUserData(data, +id);
-      setUserInfo(userInfo);
-      setIsEdit(false);
+      if (Object.keys(changedValues).length === 0) {
+        alert('Нет изменений для сохранения');
+        return;
+      }
+
+      if (id) {
+        const updatedUserInfo = await updateUserData(changedValues, +id);
+        setUserInfo(updatedUserInfo);
+        setIsEdit(false);
+        setChangedValues({});
+      }
     } catch (error) {
       alert(error);
     }
-  }, []);
+  }, [id, changedValues]);
 
   const fetchUserInfo = async (id?: number) => {
     try {
@@ -62,7 +70,7 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     id ? fetchUserInfo(+id) : fetchUserInfo();
-  }, [id, handleSubmitEditUserForm]);
+  }, [id]);
 
   return (
     <Card
@@ -85,7 +93,7 @@ export const ProfilePage = () => {
             </Descriptions.Item>
           </Descriptions>
           <Space>
-            {user?.isAdmin && (
+            {user?.isAdmin && id && (
               <Button onClick={handleSetIsEdit} type="primary">
                 Редактировать
               </Button>
@@ -103,13 +111,13 @@ export const ProfilePage = () => {
             phoneNumber: userInfo?.phoneNumber,
             name: userInfo?.username,
           }}
-          onFinish={(value) =>
-            handleSubmitEditUserForm({
-              username: value.name,
-              phoneNumber: value.phoneNumber,
-              email: value.email,
-            })
-          }
+          onValuesChange={(changed) => {
+            setChangedValues((prev) => ({
+              ...prev,
+              ...changed,
+            }));
+          }}
+          onFinish={handleSubmitEditUserForm}
         >
           <FormInput
             placeholder="Почта"
