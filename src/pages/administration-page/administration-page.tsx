@@ -278,9 +278,14 @@ export const AdministrationPage = () => {
     key: user.id,
     name: user.username || 'Нет данных',
     email: user.email || 'Нет данных',
-    registrationDate: user.date || 'Нет данных',
+    registrationDate: new Date(user.date).toLocaleString('ru') || 'Нет данных',
     blockStatus: user.isBlocked ? 'Заблокирован' : 'Не заблокирован',
-    role: user.isAdmin !== undefined ? (user.isAdmin ? 'Admin' : 'User') : 'Нет данных',
+    role:
+      user.isAdmin !== undefined
+        ? user.isAdmin
+          ? 'Admin'
+          : 'User'
+        : 'Нет данных',
     phoneNumber: user.phoneNumber || 'Нет данных',
   }));
 

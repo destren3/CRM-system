@@ -3,11 +3,12 @@ import {
   getUser,
   getCurrentUserProfile,
   updateUserData,
+  logoutUser,
 } from '../../api/services';
 import { Profile, UserRequest } from '../../lib/types';
-import { Button, Card, Descriptions, Form } from 'antd';
+import { Button, Card, Descriptions, Form, Space } from 'antd';
 import styles from './profile-page.module.scss';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'antd/es/form/Form';
 import { FormInput } from '../../components';
 import { useSelector } from 'react-redux';
@@ -19,9 +20,19 @@ export const ProfilePage = () => {
   const { id } = useParams<{ id: string }>();
   const [form] = useForm();
   const user = useSelector((state: RootState) => state.user.user);
+  const navigate = useNavigate();
 
   const handleSetIsEdit = () => {
     setIsEdit(!isEdit);
+  };
+
+  const handleLogoutClick = async () => {
+    try {
+      await logoutUser();
+      navigate('/login');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSubmitEditUserForm = useCallback(async (data: UserRequest) => {
@@ -73,11 +84,16 @@ export const ProfilePage = () => {
               {userInfo?.username || 'Нет данных'}
             </Descriptions.Item>
           </Descriptions>
-          {user?.isAdmin && (
-            <Button onClick={handleSetIsEdit} type="primary">
-              Редактировать
+          <Space>
+            {user?.isAdmin && (
+              <Button onClick={handleSetIsEdit} type="primary">
+                Редактировать
+              </Button>
+            )}
+            <Button onClick={handleLogoutClick} color="danger" variant="solid">
+              Выйти из системы
             </Button>
-          )}
+          </Space>
         </>
       ) : (
         <Form

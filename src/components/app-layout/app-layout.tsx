@@ -4,13 +4,11 @@ import Sider from 'antd/es/layout/Sider';
 import {
   UserOutlined,
   FileTextOutlined,
-  LogoutOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styles from './app-layout.module.scss';
 import { useState } from 'react';
-import { logoutUser } from '../../api/services';
 import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
 
@@ -20,20 +18,7 @@ export const AppLayout: React.FC = () => {
   const user = useSelector((state: RootState) => state.user.user);
 
   const handleMenuClick = ({ key }: { key: string }) => {
-    if (key === 'logout') {
-      handleLogoutClick();
-    } else {
-      navigate(key);
-    }
-  };
-
-  const handleLogoutClick = async () => {
-    try {
-      await logoutUser();
-      navigate('/login');
-    } catch (error) {
-      console.log(error);
-    }
+    navigate(key);
   };
 
   const menuItems = [
@@ -56,11 +41,6 @@ export const AppLayout: React.FC = () => {
           },
         ]
       : []),
-    {
-      key: 'logout',
-      icon: <LogoutOutlined />,
-      label: 'Выход',
-    },
   ];
 
   return (
