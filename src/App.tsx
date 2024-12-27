@@ -1,5 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
-import { LoginPage, ProfilePage, RegistrationPage, TodosPage } from './pages';
+import {
+  AdministrationPage,
+  LoginPage,
+  ProfilePage,
+  RegistrationPage,
+  TodosPage,
+  UserProfilePage,
+} from './pages';
 import { AppLayout, ProtectedRoute, AuthLayout } from './components';
 
 function App() {
@@ -13,7 +20,9 @@ function App() {
         }
       >
         <Route path="/" element={<TodosPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/my-profile" element={<ProfilePage />} />
+        <Route path="/user-profile/:id" element={<UserProfilePage />} />
+        <Route path="/administration" element={<AdministrationPage />} />
       </Route>
 
       <Route

@@ -1,24 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { getUserProfile } from '../../api/services';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './protected-route.module.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { Spin } from 'antd';
+import { getCurrentUserProfile } from '../../api/services';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const user = useSelector((state: RootState) => state.user.user);
+  const isLoading = useSelector((state: RootState) => state.user.loading);
 
   const fetchUserInfo = async () => {
     try {
-      await getUserProfile();
+      await getCurrentUserProfile();
     } catch (error) {
       console.log(error);
       navigate('/login', { replace: true });
     } finally {
-      setIsLoading(false);
     }
   };
 
@@ -27,7 +31,15 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }, []);
 
   if (isLoading) {
-    return <div className={styles.loading}>Загрузка...</div>;
+    return <Spin size="large" className={styles.loading} />;
+  }
+
+  if (location.pathname === '/administration' && !user?.isAdmin) {
+    return (
+      <div className={styles.accessDeniedMessage}>
+        Недостаточно прав для доступа к данной странице
+      </div>
+    );
   }
 
   return <>{children}</>;

@@ -20,7 +20,7 @@ let isRefreshing = false;
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const storedRefreshToken = getCookie('refreshToken')
+    const storedRefreshToken = getCookie('refreshToken');
     if (error.response.status === 401 && storedRefreshToken) {
       try {
         if (!isRefreshing) {
