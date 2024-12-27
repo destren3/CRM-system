@@ -10,15 +10,16 @@ import { api } from '../api';
 export const getUsers = async (
   data?: UserFilters
 ): Promise<MetaResponseUsers<User>> => {
-  const params = new URLSearchParams(
-    data
-      ? Object.entries(data)
-          .filter(([_, value]) => value !== undefined && value !== null)
-          .map(([key, value]) => [key, value.toString()])
-      : ''
-  );
   try {
-    const users = await api.get(`/admin/users?${params}`);
+    const users = await api.get('/admin/users', {
+      params: data
+        ? Object.fromEntries(
+            Object.entries(data).filter(
+              ([key, value]) => value !== undefined && value !== null
+            )
+          )
+        : undefined,
+    });
     return users.data;
   } catch (error) {
     console.log(error);

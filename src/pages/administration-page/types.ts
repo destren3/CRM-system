@@ -6,4 +6,5 @@ export type TableRow = {
   blockStatus: string;
   role: string;
   phoneNumber: string;
+  isBlocked: boolean;
 };
