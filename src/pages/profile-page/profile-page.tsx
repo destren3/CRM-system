@@ -98,9 +98,15 @@ export const ProfilePage = () => {
                 Редактировать
               </Button>
             )}
-            <Button onClick={handleLogoutClick} color="danger" variant="solid">
-              Выйти из системы
-            </Button>
+            {!id && (
+              <Button
+                onClick={handleLogoutClick}
+                color="danger"
+                variant="solid"
+              >
+                Выйти из системы
+              </Button>
+            )}
           </Space>
         </>
       ) : (
