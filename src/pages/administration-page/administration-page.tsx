@@ -167,7 +167,7 @@ export const AdministrationPage = () => {
   };
 
   const handleNavigateToUser = (id: number) => {
-    navigate(`/profile/${id}`);
+    navigate(`/user-profile/${id}`);
   };
 
   const fetchUsers = async (data?: UserFilters) => {

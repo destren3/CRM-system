@@ -17,7 +17,7 @@ export const commonRoutes: MenuItem[] = [
     label: 'Заметки',
   },
   {
-    key: '/profile',
+    key: '/my-profile',
     icon: <UserOutlined />,
     label: 'Профиль',
   },
