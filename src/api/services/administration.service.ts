@@ -15,7 +15,7 @@ export const getUsers = async (
       params: data
         ? Object.fromEntries(
             Object.entries(data).filter(
-              ([key, value]) => value !== undefined && value !== null
+              ([, value]) => value !== undefined && value !== null
             )
           )
         : undefined,
