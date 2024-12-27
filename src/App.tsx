@@ -5,6 +5,7 @@ import {
   ProfilePage,
   RegistrationPage,
   TodosPage,
+  UserProfilePage,
 } from './pages';
 import { AppLayout, ProtectedRoute, AuthLayout } from './components';
 
@@ -20,7 +21,7 @@ function App() {
       >
         <Route path="/" element={<TodosPage />} />
         <Route path="/my-profile" element={<ProfilePage />} />
-        <Route path="/user-profile/:id" element={<ProfilePage />} />
+        <Route path="/user-profile/:id" element={<UserProfilePage />} />
         <Route path="/administration" element={<AdministrationPage />} />
       </Route>
 
