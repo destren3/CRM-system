@@ -2,22 +2,25 @@ import { Layout, Card } from 'antd';
 import styles from './auth-layout.module.scss';
 import { Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { getRandomImage } from '../../lib/utils';
 
 const { Content } = Layout;
+
+const IMAGE_CHANGE_INTERVAL = 5000;
 
 interface AuthLayoutProps {
   images: string[];
 }
 
 export const AuthLayout = ({ images }: AuthLayoutProps) => {
-  const [currentImage, setIsCurrentImage] = useState<string>(() => {
-    return images[Math.floor(Math.random() * images.length)];
-  });
+  const [currentImage, setIsCurrentImage] = useState<string>(() =>
+    getRandomImage(images)
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsCurrentImage(images[Math.floor(Math.random() * images.length)]);
-    }, 5000);
+      setIsCurrentImage(getRandomImage(images));
+    }, IMAGE_CHANGE_INTERVAL);
     return () => clearInterval(interval);
   }, []);
 

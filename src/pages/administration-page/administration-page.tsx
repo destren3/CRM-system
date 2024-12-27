@@ -5,6 +5,7 @@ import {
   Table,
   TablePaginationConfig,
   Typography,
+  Modal,
 } from 'antd';
 import { useEffect, useState } from 'react';
 import {
@@ -22,10 +23,10 @@ import {
 } from '../../api/services';
 import styles from './administration-page.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { Modal } from 'antd';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { TableRow } from './types';
 import { SearchOutlined } from '@ant-design/icons';
+import { BlockStatus, BlockStatusLocalization } from './constants';
 
 const { Title } = Typography;
 
@@ -48,14 +49,12 @@ export const AdministrationPage = () => {
   };
 
   const handleChangeBlockStatus = async (
-    blockStatus: string,
+    blockStatus: boolean,
     recordKey: number,
     currentPage: number
   ) => {
     try {
-      blockStatus === 'Заблокирован'
-        ? await unblockUser(recordKey)
-        : await blockUser(recordKey);
+      blockStatus ? await unblockUser(recordKey) : await blockUser(recordKey);
       await fetchUsers({ offset: currentPage });
     } catch (error) {
       alert(error);
@@ -91,14 +90,16 @@ export const AdministrationPage = () => {
     });
   };
 
-  const openChangeStatusModal = (blockStatus: string, recordKey: number) => {
+  const openChangeStatusModal = (isBlocked: boolean, recordKey: number) => {
     Modal.confirm({
-      title: `Вы уверены, что хотите ${blockStatus === 'Заблокирован' ? 'разблокировать' : 'заблокировать'} этого пользователя?`,
+      title: `Вы уверены, что хотите ${
+        isBlocked ? 'разблокировать' : 'заблокировать'
+      } этого пользователя?`,
       okText: 'Да',
       okType: 'danger',
       cancelText: 'Отмена',
       onOk() {
-        handleChangeBlockStatus(blockStatus, recordKey, currentPaginationPage);
+        handleChangeBlockStatus(isBlocked, recordKey, currentPaginationPage);
       },
       onCancel() {
         console.log('Изменение отменено');
@@ -111,7 +112,7 @@ export const AdministrationPage = () => {
     recordKey: number
   ) => {
     Modal.confirm({
-      title: `Вы уверены, что хотите изменить роль этого пользователя?`,
+      title: 'Вы уверены, что хотите изменить роль этого пользователя?',
       okText: 'Да',
       okType: 'danger',
       cancelText: 'Отмена',
@@ -136,7 +137,7 @@ export const AdministrationPage = () => {
       setCurrentPaginationPage(pagination.current || 1);
 
       if (filters.blockStatus) {
-        const isBlocked = filters.blockStatus[0] === 'Заблокирован';
+        const isBlocked = filters.blockStatus[0] === BlockStatus.BLOCKED;
         await fetchUsers({
           isBlocked: isBlocked,
           offset: pagination.current,
@@ -213,11 +214,11 @@ export const AdministrationPage = () => {
       filters: [
         {
           text: 'Заблокирован',
-          value: 'Заблокирован',
+          value: BlockStatus.BLOCKED,
         },
         {
           text: 'Не заблокирован',
-          value: 'Не заблокирован',
+          value: BlockStatus.UNBLOCKED,
         },
       ],
       filterMultiple: false,
@@ -238,7 +239,7 @@ export const AdministrationPage = () => {
       key: 'Действия',
       render: (
         _: string,
-        record: { key: number; blockStatus: string; role: string }
+        record: { key: number; isBlocked: boolean; role: string }
       ) => (
         <div className={styles['actions-wrapper']}>
           <Space direction="vertical" size={4}>
@@ -265,13 +266,11 @@ export const AdministrationPage = () => {
               type="link"
               danger
               onClick={() =>
-                openChangeStatusModal(record.blockStatus, record.key)
+                openChangeStatusModal(record.isBlocked, record.key)
               }
               className={styles['action-button']}
             >
-              {record.blockStatus === 'Заблокирован'
-                ? 'Разблокировать'
-                : 'Заблокировать'}
+              {record.isBlocked ? 'Разблокировать' : 'Заблокировать'}
             </Button>
             <Button
               type="link"
@@ -292,14 +291,13 @@ export const AdministrationPage = () => {
     name: user.username || 'Нет данных',
     email: user.email || 'Нет данных',
     registrationDate: new Date(user.date).toLocaleString('ru') || 'Нет данных',
-    blockStatus: user.isBlocked ? 'Заблокирован' : 'Не заблокирован',
-    role:
-      user.isAdmin !== undefined
-        ? user.isAdmin
-          ? 'Admin'
-          : 'User'
-        : 'Нет данных',
+    blockStatus:
+      BlockStatusLocalization[
+        user.isBlocked ? BlockStatus.BLOCKED : BlockStatus.UNBLOCKED
+      ],
+    role: user.isAdmin ? 'Admin' : 'User',
     phoneNumber: user.phoneNumber || 'Нет данных',
+    isBlocked: user.isBlocked,
   }));
 
   return (
